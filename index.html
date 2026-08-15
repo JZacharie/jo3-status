@@ -5516,13 +5516,13 @@
                                     <div class="app-icon-wrapper">
                                         <img class="app-icon" src="${app.icon_url}" alt="${app.name}" onerror="handleIconError(this, '${app.name}')">
                                     </div>
-                                    <div class="app-title">${app.name}</div>
+                                    <div class="app-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${app.name}">${app.name}</div>
                                 </div>
                                 <div class="badge-group">
                                     <span class="badge ${app.badge_class}">${app.status}</span>
-                                    ${updateBadge}
                                 </div>
                             </div>
+                            ${updateBadge ? `<div style="display: flex; justify-content: flex-end;">${updateBadge}</div>` : ''}
                         </div>
 
                         <div class="probe-box">
