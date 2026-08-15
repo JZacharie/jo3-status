@@ -723,7 +723,7 @@
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/dev-tools/wh2pg.yaml",
     "ingress_url": "https://wh2pg.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/postgresql",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -735,7 +735,7 @@
     "repo": "https://grafana.github.io/helm-charts",
     "path": "Applications/dev-tools/k6-operator.yaml",
     "ingress_url": "https://kargo.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/k6",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/k6.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -771,7 +771,7 @@
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/dev-tools/opencode-dev-tools.yaml",
     "ingress_url": "https://kargo.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/codefactor",
+    "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -795,7 +795,7 @@
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/dev-tools/termix.yaml",
     "ingress_url": "https://termix.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/terminal",
+    "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2175,7 +2175,7 @@
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/open-notebook.yaml",
     "ingress_url": "https://open-notebook.p.zacharie.org",
-    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jupyter.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2199,7 +2199,7 @@
     "repo": "https://darox.github.io/helm-charts/",
     "path": "Applications/ai/lobe-chat.yaml",
     "ingress_url": "https://lobe-chat.p.zacharie.org",
-    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/lobe-chat.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2223,7 +2223,7 @@
     "repo": "https://infracloudio.github.io/charts",
     "path": "Applications/ai/chromadb.yaml",
     "ingress_url": "https://chromadb.p.zacharie.org",
-    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/chroma.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2271,7 +2271,7 @@
     "repo": "https://maximhq.github.io/bifrost/helm-charts",
     "path": "Applications/ai/bifrost.yaml",
     "ingress_url": "https://bifrost.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/fastapi",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/fastapi.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2367,7 +2367,7 @@
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/rustfs.yaml",
     "ingress_url": "https://rustfs.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/rust",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/rustfs.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -2535,7 +2535,7 @@
     "repo": "-",
     "path": "Disabled/openclaw.yaml.disable",
     "ingress_url": "https://openclaw.p.zacharie.org",
-    "icon_url": "https://cdn.simpleicons.org/githubactions",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -3250,30 +3250,16 @@
 ];
 
         function handleIconError(img, appName) {
-            const clean = appName.toLowerCase().replace(/[-_]/g, "").replace(/sbx|dev|prd|vs/g, "");
-            
-            // Step 1: try raw GitHub walkxcode dashboard-icons repo
-            if (!img.dataset.triedDashboard) {
-                img.dataset.triedDashboard = "true";
-                img.src = `https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/${clean}.png`;
-                return;
-            }
-            
-            // Step 2: try SimpleIcons CDN
-            if (!img.dataset.triedSimple) {
-                img.dataset.triedSimple = "true";
-                img.src = `https://cdn.simpleicons.org/${clean}`;
-                return;
-            }
-
-            // Step 3: Fallback to vibrant 2-letter gradient avatar
+            // Replace broken image with a vibrant 2-letter gradient avatar badge
             const wrapper = img.parentElement;
-            const words = appName.split(/[-_]/);
+            
+            const clean = appName.replace(/^joe3-|^jo3-|-sbx|-dev|-prd|-vs/g, "");
+            const words = clean.split(/[-_]/);
             let initials = "";
             if (words.length >= 2 && words[1].length > 0) {
                 initials = (words[0][0] + words[1][0]).toUpperCase();
             } else {
-                initials = appName.substring(0, 2).toUpperCase();
+                initials = clean.substring(0, 2).toUpperCase();
             }
 
             let hash = 0;
@@ -3282,12 +3268,13 @@
             }
             const hue = Math.abs(hash % 360);
 
-            wrapper.style.background = `linear-gradient(135deg, hsl(${hue}, 65%, 42%) 0%, hsl(${(hue + 45) % 360}, 75%, 26%) 100%)`;
+            wrapper.style.background = `linear-gradient(135deg, hsl(${hue}, 65%, 42%) 0%, hsl(${(hue + 50) % 360}, 75%, 26%) 100%)`;
             wrapper.style.color = '#ffffff';
             wrapper.style.fontFamily = "'JetBrains Mono', monospace";
-            wrapper.style.fontSize = '0.85rem';
+            wrapper.style.fontSize = '0.9rem';
             wrapper.style.fontWeight = '700';
             wrapper.style.letterSpacing = '0.05em';
+            wrapper.style.boxShadow = 'inset 0 1px 1px rgba(255,255,255,0.2)';
             wrapper.innerHTML = initials;
         }
 
