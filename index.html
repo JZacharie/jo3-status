@@ -9,9 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0d14;
-            --bg-card: rgba(18, 24, 38, 0.75);
-            --bg-card-hover: rgba(28, 36, 56, 0.85);
+            --bg-primary: #0b0f19;
+            --bg-card: rgba(18, 26, 43, 0.75);
+            --bg-card-hover: rgba(30, 41, 67, 0.9);
             --border: rgba(255, 255, 255, 0.08);
             --accent-primary: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.25);
@@ -19,7 +19,6 @@
             --text-muted: #9ca3af;
             --success: #10b981;
             --success-glow: rgba(16, 185, 129, 0.2);
-            --warning: #f59e0b;
             --disabled: #6b7280;
         }
 
@@ -36,13 +35,13 @@
             min-height: 100vh;
             padding: 2rem 1.5rem;
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%);
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 45%);
             background-attachment: fixed;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
         }
 
@@ -60,11 +59,11 @@
         .logo-title {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.85rem;
         }
 
         .logo-title h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
             -webkit-background-clip: text;
@@ -79,16 +78,16 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 1.25rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
@@ -110,7 +109,7 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .search-box {
@@ -158,33 +157,52 @@
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.25rem;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 1.35rem;
         }
 
         .app-card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid var(--border);
             border-radius: 14px;
             padding: 1.25rem;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .app-card:hover {
             transform: translateY(-4px);
             background: var(--bg-card-hover);
-            border-color: rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.35);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
         .app-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            overflow: hidden;
+        }
+
+        .app-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            flex-shrink: 0;
         }
 
         .app-title {
@@ -192,15 +210,19 @@
             font-weight: 700;
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .badge {
             padding: 0.25rem 0.65rem;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            flex-shrink: 0;
         }
 
         .badge-active {
@@ -218,19 +240,57 @@
         .app-meta {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.45rem;
             font-size: 0.88rem;
             color: var(--text-muted);
+            margin-bottom: 1rem;
         }
 
         .meta-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .meta-row span.val {
             color: #d1d5db;
             font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
+
+        .ingress-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.65rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.3) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 8px;
+            color: #a5b4fc;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .ingress-btn:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.35) 0%, rgba(79, 70, 229, 0.5) 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
+
+        .no-ingress {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.65rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
             font-size: 0.82rem;
         }
 
@@ -249,10 +309,10 @@
         <header>
             <div>
                 <div class="logo-title">
-                    <span style="font-size: 2rem;">🌌</span>
+                    <span style="font-size: 2.2rem;">🌌</span>
                     <h1>jo3 GitOps Applications Dashboard</h1>
                 </div>
-                <p class="subtitle">Tableau de bord interactif de l'état des applications Kubernetes & ArgoCD</p>
+                <p class="subtitle">Tableau de bord interactif des applications Kubernetes avec accès Ingress direct</p>
             </div>
         </header>
 
@@ -266,19 +326,19 @@
                 <div class="value" style="color: #10b981;">169</div>
             </div>
             <div class="stat-card">
-                <div class="label">Désactivées</div>
-                <div class="value" style="color: #6b7280;">70</div>
+                <div class="label">Routes Ingress Configuées</div>
+                <div class="value" style="color: #3b82f6;">119</div>
             </div>
             <div class="stat-card">
-                <div class="label">Projets & Catégories</div>
-                <div class="value" style="color: #f59e0b;">12</div>
+                <div class="label">Désactivées</div>
+                <div class="value" style="color: #6b7280;">70</div>
             </div>
         </div>
 
         <div class="controls">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Rechercher une application, namespace, chart..." oninput="filterApps()">
+                <input type="text" id="searchInput" placeholder="Rechercher une application, namespace, ingress, chart..." oninput="filterApps()">
             </div>
             <select id="projectFilter" class="filter-select" onchange="filterApps()">
                 <option value="ALL">Tous les projets</option>
@@ -309,6 +369,8 @@
     "chart": "changedetection-io",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/changedetection-io.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/changedetection-io.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -319,6 +381,8 @@
     "chart": "littlelink-server",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/littlelink-server.yaml",
+    "ingress_url": "https://joseph.p.zacharie.org",
+    "icon_url": "https://yt3.ggpht.com/ytc/AIdro_k2vOtQ5Ow57eA3Ab2irRNfVsD8g9x8yJtkPFpaZ05KDRB4=s600-c-k-c0x00ffffff-no-rj-rp-mo",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -329,6 +393,8 @@
     "chart": "miniflux",
     "repo": "https://charts.gabe565.com",
     "path": "Applications/productivity/miniflux.yaml",
+    "ingress_url": "https://miniflux.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/miniflux.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -339,6 +405,8 @@
     "chart": "psitransfer",
     "repo": "https://halkeye.github.io/helm-charts",
     "path": "Applications/productivity/psitransfer.yaml",
+    "ingress_url": "https://psitransfer.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/psitransfer.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -349,6 +417,8 @@
     "chart": "nocodb",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/nocodb.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nocodb.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -359,6 +429,8 @@
     "chart": "charts/shannon",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/productivity/shannon.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/shannon.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -369,6 +441,8 @@
     "chart": "sockpuppetbrowser",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/sockpuppetbrowser.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sockpuppetbrowser.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -379,6 +453,8 @@
     "chart": "readur",
     "repo": "https://readur.github.io/readur/",
     "path": "Applications/productivity/readur.yaml",
+    "ingress_url": "https://readur.p.zacharie.org",
+    "icon_url": "https://www.sogeic.com/wp-content/uploads/2017/07/Logo-GED.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -389,6 +465,8 @@
     "chart": "charts/pandoc",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/productivity/pandoc.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pandoc.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -399,6 +477,8 @@
     "chart": "ihatemoney",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/ihatemoney.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ihatemoney.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -409,6 +489,8 @@
     "chart": "karma",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/karma.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/karma.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -419,6 +501,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/productivity/convertx.yaml",
+    "ingress_url": "https://convertx.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/convertx.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -429,6 +513,8 @@
     "chart": "actualbudget",
     "repo": "https://community-charts.github.io/helm-charts",
     "path": "Applications/productivity/actualbudget.yaml",
+    "ingress_url": "https://actualbudget.p.zacharie.org",
+    "icon_url": "https://store-images.s-microsoft.com/image/apps.15442.14557717393621578.843a157c-d399-4f0a-a339-9b5b3ccf2259.7d609fe4-b774-467c-bd62-9de6e6645655?h=210",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -439,6 +525,8 @@
     "chart": "charts/outline",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/productivity/outline.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/outline-v2.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -449,6 +537,8 @@
     "chart": "maker-management-platform",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/productivity/maker-management-platform.yaml",
+    "ingress_url": "https://maker-management-platform.p.zacharie.org",
+    "icon_url": "https://maker-management-platform.p.zacharie.org/vite.svg",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -459,6 +549,8 @@
     "chart": "values/productivity/redirection-namespace/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/productivity/redirection.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redirection.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -469,6 +561,8 @@
     "chart": "docuseal",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/docuseal.yaml",
+    "ingress_url": "https://docuseal.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/docuseal.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -479,6 +573,8 @@
     "chart": "paperless",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/paperless.yaml",
+    "ingress_url": "https://paperless.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/paperless.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -489,6 +585,8 @@
     "chart": "freshrss",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/freshrss.yaml",
+    "ingress_url": "https://freshrss.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/freshrss.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -499,6 +597,8 @@
     "chart": "docspell",
     "repo": "https://docspell.github.io/docker",
     "path": "Applications/productivity/docspell.yaml",
+    "ingress_url": "https://docspell.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/docspell.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -509,6 +609,8 @@
     "chart": "itop",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/productivity/itop.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/itop.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -519,6 +621,8 @@
     "chart": "readeck",
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/readeck.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/readeck.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -529,6 +633,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/productivity/planka.yaml",
+    "ingress_url": "https://planka.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/planka.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -539,6 +645,8 @@
     "chart": "excalidraw",
     "repo": "https://pmoscode-helm.github.io/excalidraw/",
     "path": "Applications/dev-tools/excalidraw.yaml",
+    "ingress_url": "https://excalidraw.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/excalidraw.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -549,6 +657,8 @@
     "chart": "permission-manager",
     "repo": "https://sighupio.github.io/permission-manager",
     "path": "Applications/dev-tools/permission-manager.yaml",
+    "ingress_url": "https://permission-manager.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/permission-manager.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -559,6 +669,8 @@
     "chart": "values/dev-tools/awx/manifests/",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/dev-tools/awx.yaml",
+    "ingress_url": "https://fluent-bit-sbx.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/awx.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -569,6 +681,8 @@
     "chart": "kargo",
     "repo": "ghcr.io/akuity/kargo-charts",
     "path": "Applications/dev-tools/kargo.yaml",
+    "ingress_url": "https://kargo.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kargo.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -579,6 +693,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/dev-tools/filebrowser-quantum.yaml",
+    "ingress_url": "https://filebrowser.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/filebrowser-quantum.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -589,6 +705,8 @@
     "chart": "wh2pg-chart",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/dev-tools/wh2pg.yaml",
+    "ingress_url": "https://wh2pg.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/wh2pg.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -599,6 +717,8 @@
     "chart": "k6-operator",
     "repo": "https://grafana.github.io/helm-charts",
     "path": "Applications/dev-tools/k6-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/k6-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -609,6 +729,8 @@
     "chart": "persistence-defectdojo",
     "repo": "https://charts.securecodebox.io",
     "path": "Applications/dev-tools/persistence-defectdojo.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/persistence-defectdojo.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -619,6 +741,8 @@
     "chart": "renovate",
     "repo": "https://docs.renovatebot.com/helm-charts",
     "path": "Applications/dev-tools/renovate.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/renovate.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -629,6 +753,8 @@
     "chart": "values/dev-tools/opencode/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/dev-tools/opencode-dev-tools.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/opencode-tools.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -639,6 +765,8 @@
     "chart": "elara",
     "repo": "https://sergeyslonimsky.github.io/elara",
     "path": "Applications/dev-tools/elara.yaml",
+    "ingress_url": "https://elara.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -649,6 +777,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/dev-tools/termix.yaml",
+    "ingress_url": "https://termix.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/termix.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -659,6 +789,8 @@
     "chart": "it-tools",
     "repo": "ghcr.io/plcnk/charts",
     "path": "Applications/dev-tools/it-tools.yaml",
+    "ingress_url": "https://ittools.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/it-tools.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -669,6 +801,8 @@
     "chart": "values/dev-tools/cloudbeaver/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/dev-tools/cloudbeaver.yaml",
+    "ingress_url": "https://cloudbeaver.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cloudbeaver.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -679,6 +813,8 @@
     "chart": "zap-advanced",
     "repo": "https://charts.securecodebox.io",
     "path": "Applications/dev-tools/zap-advanced.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/zap-advanced.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -689,6 +825,8 @@
     "chart": "swaggerui",
     "repo": "https://cetic.github.io/helm-charts",
     "path": "Applications/dev-tools/swaggerui.yaml",
+    "ingress_url": "https://swagger.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/swaggerui.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -699,6 +837,8 @@
     "chart": "gotenberg",
     "repo": "https://kurt108.github.io/helm-charts/",
     "path": "Applications/dev-tools/gotenberg.yaml",
+    "ingress_url": "https://gotenberg.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gotenberg.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -709,6 +849,8 @@
     "chart": "manifests/infrastructure/k6-demo",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/dev-tools/k6-demo.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/k6-demo.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -719,6 +861,8 @@
     "chart": "awx-operator",
     "repo": "https://ansible-community.github.io/awx-operator-helm/",
     "path": "Applications/dev-tools/awx-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/awx-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -729,6 +873,8 @@
     "chart": "cyberchef",
     "repo": "https://charts.obeone.cloud",
     "path": "Applications/dev-tools/cyberchef.yaml",
+    "ingress_url": "https://cyberchef.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cyberchef.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -739,6 +885,8 @@
     "chart": "kube-ops-view",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/infrastructure/kube-ops-view.yaml",
+    "ingress_url": "https://kube-ops-view.p.zacharie.org",
+    "icon_url": "https://artifacthub.io/image/3389eb17-761b-430a-a5ee-6ba94c2bf0f4@3x",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -749,6 +897,8 @@
     "chart": "cilium",
     "repo": "https://helm.cilium.io/",
     "path": "Applications/infrastructure/cilium.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cilium.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -759,6 +909,8 @@
     "chart": "node-red",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/infrastructure/node-red.yaml",
+    "ingress_url": "https://node-red.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/node-red.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -769,6 +921,8 @@
     "chart": "rabbitmq",
     "repo": "https://cloudpirates-io.github.io/helm-charts",
     "path": "Applications/infrastructure/rabbitmq.yaml",
+    "ingress_url": "https://rabbitmq.p.zacharie.org",
+    "icon_url": "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/rabbitmq-icon-i64x9hzvue8q5nrr52ei3.png/rabbitmq-icon-fd1792c5uscn3uef5ew1u.png?_a=DATAg1AAZAA0",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -779,6 +933,8 @@
     "chart": "n8n",
     "repo": "https://community-charts.github.io/helm-charts",
     "path": "Applications/infrastructure/n8n.yaml",
+    "ingress_url": "https://n8n.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/n8n.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -789,6 +945,8 @@
     "chart": "argo-workflows",
     "repo": "https://argoproj.github.io/argo-helm",
     "path": "Applications/infrastructure/argo-workflows.yaml",
+    "ingress_url": "https://argoworkflows.zacharie.org",
+    "icon_url": "https://argoproj.github.io/static/3748e3a7881fe3b037f2401b65943dc0/93d75/rollouts.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -799,6 +957,8 @@
     "chart": "fluent-bit",
     "repo": "https://fluent.github.io/helm-charts",
     "path": "Applications/infrastructure/fluent-bit.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/fluent-bit.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -809,6 +969,8 @@
     "chart": "values/infrastructure/github-mcp/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/github-mcp.yaml",
+    "ingress_url": "https://github-mcp.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/github-mcp.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -819,6 +981,8 @@
     "chart": "browserless-chrome",
     "repo": "https://charts.sagikazarmark.dev",
     "path": "Applications/infrastructure/browserless-chrome.yaml",
+    "ingress_url": "https://browserless.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/browserless-chrome.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -829,6 +993,8 @@
     "chart": "cups",
     "repo": "https://r2dlan.github.io/helm-charts",
     "path": "Applications/infrastructure/cups.yaml",
+    "ingress_url": "https://cups.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cups.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -839,6 +1005,8 @@
     "chart": "manifests/infrastructure/configure-storage",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/configure-storage.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/configure-storage.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -849,6 +1017,8 @@
     "chart": "mariadb-operator-crds",
     "repo": "https://helm.mariadb.com/mariadb-operator",
     "path": "Applications/infrastructure/mariadb-operator-crd.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mariadb-operator-crds.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -859,6 +1029,8 @@
     "chart": "nats",
     "repo": "https://nats-io.github.io/k8s/helm/charts",
     "path": "Applications/infrastructure/nats.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nats.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -869,6 +1041,8 @@
     "chart": "openobserve-collector",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/infrastructure/o2c.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/o2c.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -879,6 +1053,8 @@
     "chart": "ntfy",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/infrastructure/ntfy.yaml",
+    "ingress_url": "https://ntfy.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ntfy.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -889,6 +1065,8 @@
     "chart": "tika",
     "repo": "https://apache.jfrog.io/artifactory/tika",
     "path": "Applications/infrastructure/tika.yaml",
+    "ingress_url": "https://tika.p.zacharie.org",
+    "icon_url": "https://hub.turbo.net/repo/apache/tika/icon",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -899,6 +1077,8 @@
     "chart": "values/observability/opentelemetry-operator/postgres",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/otel-collector-postgres.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/otel-collector-postgres.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -909,6 +1089,8 @@
     "chart": "values/infrastructure/ironcalc/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/ironcalc.yaml",
+    "ingress_url": "https://ironcalc.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ironcalc.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -919,6 +1101,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/infrastructure/devdocs.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/devdocs.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -929,6 +1113,8 @@
     "chart": "whoami",
     "repo": "https://cowboysysop.github.io/charts",
     "path": "Applications/infrastructure/whoami.yaml",
+    "ingress_url": "https://whoami.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/whoami.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -939,6 +1125,8 @@
     "chart": "values/observability/o2-openobserve/dashboard-import",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/o2-openobserve-import-dashboards.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/o2-openobserve-import-dashboards.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -949,6 +1137,8 @@
     "chart": "nmap",
     "repo": "https://charts.securecodebox.io",
     "path": "Applications/infrastructure/nmap.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nmap.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -959,6 +1149,8 @@
     "chart": "nack",
     "repo": "https://nats-io.github.io/k8s/helm/charts/",
     "path": "Applications/infrastructure/nack.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nack.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -969,6 +1161,8 @@
     "chart": "keda",
     "repo": "https://kedacore.github.io/charts",
     "path": "Applications/infrastructure/keda.yaml",
+    "ingress_url": "https://keda-status.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keda.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -979,6 +1173,8 @@
     "chart": "kubernetes-mcp",
     "repo": "https://cowboysysop.github.io/charts/",
     "path": "Applications/infrastructure/kubernetes-mcp.yaml",
+    "ingress_url": "https://kubernetes-mcp.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kubernetes-mcp.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -989,6 +1185,8 @@
     "chart": "redis",
     "repo": "https://kubelauncher.github.io/charts",
     "path": "Applications/infrastructure/redis-pov.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redis-pov.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -999,6 +1197,8 @@
     "chart": "kusanagi",
     "repo": "ghcr.io/jzacharie/charts",
     "path": "Applications/infrastructure/kusanagi.yaml",
+    "ingress_url": "https://kusanagi.p.zacharie.org",
+    "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1009,6 +1209,8 @@
     "chart": "argo-rollouts",
     "repo": "https://argoproj.github.io/argo-helm",
     "path": "Applications/infrastructure/argo-rollouts.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/argo-rollouts.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1019,6 +1221,8 @@
     "chart": "deploy-pilot",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/infrastructure/deploy-pilot.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/deploy-pilot.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1029,6 +1233,8 @@
     "chart": "manifests/infrastructure/proxmox-upgrade",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/proxmox-upgrade.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/proxmox-upgrade.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1039,6 +1245,8 @@
     "chart": "values/observability/opentelemetry-operator/argocd",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/otel-collector-argocd.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/otel-collector-argocd.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1049,6 +1257,8 @@
     "chart": "n8n",
     "repo": "https://community-charts.github.io/helm-charts",
     "path": "Applications/infrastructure/n8n-dev.yaml",
+    "ingress_url": "https://n8n-dev.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/n8n.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1059,6 +1269,8 @@
     "chart": "cloudflare-tunnel-ingress-controller",
     "repo": "https://helm.strrl.dev",
     "path": "Applications/infrastructure/cloudflare-tunnel.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cloudflare-tunnel.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1069,6 +1281,8 @@
     "chart": "kusanagi",
     "repo": "ghcr.io/jzacharie/charts",
     "path": "Applications/infrastructure/kusanagi-dev.yaml",
+    "ingress_url": "https://kusanagi.p.zacharie.org",
+    "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1079,6 +1293,8 @@
     "chart": "fluent-bit",
     "repo": "https://fluent.github.io/helm-charts",
     "path": "Applications/infrastructure/fluent-bit-sbx.yaml",
+    "ingress_url": "https://fluent-bit-sbx.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/fluent-bit.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1089,6 +1305,8 @@
     "chart": "mariadb-operator",
     "repo": "https://helm.mariadb.com/mariadb-operator",
     "path": "Applications/infrastructure/mariadb-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mariadb-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1099,6 +1317,8 @@
     "chart": "dragonfly",
     "repo": "ghcr.io/dragonflydb/dragonfly/helm",
     "path": "Applications/infrastructure/dragonfly-s.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dragonfly-s.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1109,6 +1329,8 @@
     "chart": "keda-add-ons-http",
     "repo": "https://kedacore.github.io/charts",
     "path": "Applications/infrastructure/keda-http-addon.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keda-http-addon.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1119,6 +1341,8 @@
     "chart": "values/observability/opentelemetry-operator/proxmox",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/otel-collector-proxmox.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/otel-collector-proxmox.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1129,6 +1353,8 @@
     "chart": "error-pages",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/infrastructure/error-pages.yaml",
+    "ingress_url": "https://error.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/error-pages.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1139,6 +1365,8 @@
     "chart": "values/observability/opentelemetry-operator/rabbitmq",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/otel-collector-rabbitmq.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/otel-collector-rabbitmq.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1149,6 +1377,8 @@
     "chart": "dragonfly",
     "repo": "ghcr.io/dragonflydb/dragonfly/helm",
     "path": "Applications/infrastructure/dragonfly-n.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dragonfly-n.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1159,6 +1389,8 @@
     "chart": "chaoskube",
     "repo": "https://linki.github.io/chaoskube/",
     "path": "Applications/infrastructure/chaoskube.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/chaoskube.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1169,6 +1401,8 @@
     "chart": "argo-events",
     "repo": "https://argoproj.github.io/argo-helm",
     "path": "Applications/infrastructure/argo-events.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/argo-events.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1179,6 +1413,8 @@
     "chart": "traefik",
     "repo": "https://traefik.github.io/charts",
     "path": "Applications/infrastructure/traefik.yaml",
+    "ingress_url": "https://matrix.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/traefik.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1189,6 +1425,8 @@
     "chart": "tailscale-operator",
     "repo": "https://pkgs.tailscale.com/helmcharts",
     "path": "Applications/infrastructure/tailscale-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/tailscale-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1199,6 +1437,8 @@
     "chart": "knative-operator",
     "repo": "https://knative.github.io/operator",
     "path": "Applications/infrastructure/knative-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/knative-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1209,6 +1449,8 @@
     "chart": "fission-all",
     "repo": "https://fission.github.io/fission-charts",
     "path": "Applications/infrastructure/fission.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/fission.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1219,6 +1461,8 @@
     "chart": "keydb",
     "repo": "https://enapter.github.io/charts",
     "path": "Applications/infrastructure/keydb.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keydb.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1229,6 +1473,8 @@
     "chart": "dragonfly",
     "repo": "ghcr.io/dragonflydb/dragonfly/helm",
     "path": "Applications/infrastructure/dragonfly.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dragonfly.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1239,6 +1485,8 @@
     "chart": "cloudnative-pg",
     "repo": "https://cloudnative-pg.io/charts/",
     "path": "Applications/infrastructure/cloudnative-pg.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cloudnative-pg.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1249,6 +1497,8 @@
     "chart": "demo-rum",
     "repo": "https://jzacharie.github.io/demo-RUM",
     "path": "Applications/infrastructure/demo-rum.yaml",
+    "ingress_url": "https://demo-rum.p.zacharie.org",
+    "icon_url": "https://avatars.githubusercontent.com/u/101834114?s=200&v=4",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1259,6 +1509,8 @@
     "chart": "homepage",
     "repo": "https://jameswynn.github.io/helm-charts",
     "path": "Applications/infrastructure/homepage.yaml",
+    "ingress_url": "https://homepage.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homepage.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1269,6 +1521,8 @@
     "chart": "values/observability/opentelemetry-operator/gpu",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/otel-collector-gpu.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/otel-collector-gpu.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1279,6 +1533,8 @@
     "chart": "gatus",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/observability/gatus.yaml",
+    "ingress_url": "https://gatus.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gatus.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1289,6 +1545,8 @@
     "chart": "influxdb2",
     "repo": "https://helm.influxdata.com",
     "path": "Applications/observability/influxdb2.yaml",
+    "ingress_url": "https://influx2.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/influxdb2.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1299,6 +1557,8 @@
     "chart": "opentelemetry-operator",
     "repo": "https://open-telemetry.github.io/opentelemetry-helm-charts",
     "path": "Applications/observability/opentelemetry-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/opentelemetry-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1309,6 +1569,8 @@
     "chart": "prometheus-blackbox-exporter",
     "repo": "https://prometheus-community.github.io/helm-charts",
     "path": "Applications/observability/prometheus-blackbox-exporter.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/prometheus-blackbox-exporter.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1319,6 +1581,8 @@
     "chart": "argocd-mobile-dashboard",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/observability/argocd-mobile-dashboard.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/argocd-mobile-dashboard.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1329,6 +1593,8 @@
     "chart": "watchyourlan",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/observability/watchyourlan.yaml",
+    "ingress_url": "https://watchyourlan.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1339,6 +1605,8 @@
     "chart": "openobserve",
     "repo": "https://charts.openobserve.ai",
     "path": "Applications/observability/o2-openobserve.yaml",
+    "ingress_url": "https://o2-openobserve.p.zacharie.org",
+    "icon_url": "https://avatars.githubusercontent.com/u/95867656?s=280&v=4",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1349,6 +1617,8 @@
     "chart": "values/observability/grafana/manifests/",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/observability/grafana.yaml",
+    "ingress_url": "https://grafana.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1359,6 +1629,8 @@
     "chart": "charts/ragecheck",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/observability/ragecheck.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ragecheck.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1369,6 +1641,8 @@
     "chart": "dcgm-exporter",
     "repo": "https://nvidia.github.io/dcgm-exporter/helm-charts",
     "path": "Applications/observability/dcgm-exporter.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dcgm-exporter.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1379,6 +1653,8 @@
     "chart": "kube-prometheus-stack",
     "repo": "https://prometheus-community.github.io/helm-charts",
     "path": "Applications/observability/kube-prometheus-stack.yaml",
+    "ingress_url": "https://prometheus.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kube-prometheus-stack.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1389,6 +1665,8 @@
     "chart": "gaps",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/observability/gaps.yaml",
+    "ingress_url": "https://gaps.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gaps.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1399,6 +1677,8 @@
     "chart": "values/observability/shared-secrets",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/observability/shared-secrets.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/observability-shared-secrets.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1409,6 +1689,8 @@
     "chart": "charts/inova-monitoring",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/observability/inova-monitoring.yaml",
+    "ingress_url": "https://inova-monitoring.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/inova-monitoring.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1419,6 +1701,8 @@
     "chart": "kyverno",
     "repo": "https://kyverno.github.io/kyverno",
     "path": "Applications/security/kyverno.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kyverno.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1429,6 +1713,8 @@
     "chart": "vault",
     "repo": "https://helm.releases.hashicorp.com",
     "path": "Applications/security/vault.yaml",
+    "ingress_url": "https://vault.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/vault.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1439,6 +1725,8 @@
     "chart": "sealed-secrets",
     "repo": "https://bitnami.github.io/sealed-secrets",
     "path": "Applications/security/sealed-secrets.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sealed-secrets.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1449,6 +1737,8 @@
     "chart": "values/security/kyverno-cluster-policy/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/security/kyverno-cluster-policy.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kyverno-cluster-policy.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1459,6 +1749,8 @@
     "chart": "charts/kryptos",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/security/kryptos.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/kryptos.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1469,6 +1761,8 @@
     "chart": ".",
     "repo": "https://github.com/Use-Tusk/fence.git",
     "path": "Applications/security/fence.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/fence.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1479,6 +1773,8 @@
     "chart": "external-secrets",
     "repo": "https://charts.external-secrets.io",
     "path": "Applications/security/external-secrets.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/external-secrets.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1489,6 +1785,8 @@
     "chart": "trivy-operator",
     "repo": "https://aquasecurity.github.io/helm-charts/",
     "path": "Applications/security/trivy-operator.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/trivy-operator.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1499,6 +1797,8 @@
     "chart": "cert-manager",
     "repo": "https://charts.jetstack.io",
     "path": "Applications/security/cert-manager.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cert-manager.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1509,6 +1809,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/sandbox/stockfish.yaml",
+    "ingress_url": "https://stockfish.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/stockfish.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1519,6 +1821,8 @@
     "chart": "values/home/meteo/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/home/meteo.yaml",
+    "ingress_url": "https://meteo.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/meteo.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1529,6 +1833,8 @@
     "chart": "emqx",
     "repo": "https://repos.emqx.io/charts",
     "path": "Applications/home/emqx.yaml",
+    "ingress_url": "https://dashboard-emqx.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/emqx.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1539,6 +1845,8 @@
     "chart": "values/media/plex-organizer/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/media/plex-organizer.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/plex-organizer.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1549,6 +1857,8 @@
     "chart": "restreamer",
     "repo": "https://utkuozdemir.org/helm-charts",
     "path": "Applications/media/restreamer.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/restreamer.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1559,6 +1869,8 @@
     "chart": "audiobookshelf",
     "repo": "https://charts.christianhuth.de",
     "path": "Applications/media/audiobookshelf.yaml",
+    "ingress_url": "https://audiobookshelf.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/audiobookshelf.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1569,6 +1881,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/media/transmission-vpn.yaml",
+    "ingress_url": "https://transmission-vpn.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission-vpn.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1579,6 +1893,8 @@
     "chart": "handbrake",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/media/handbrake.yaml",
+    "ingress_url": "https://handbrake.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/handbrake.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1589,6 +1905,8 @@
     "chart": "jellyfin",
     "repo": "ghcr.io/m0nsterrr/helm-charts",
     "path": "Applications/media/jellyfin-prd.yaml",
+    "ingress_url": "https://jellyfin-prd.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/jellyfin.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1599,6 +1917,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/media/pigallery2.yaml",
+    "ingress_url": "https://pigallery2.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pigallery2.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1609,6 +1929,8 @@
     "chart": "photoprism",
     "repo": "https://andrenarchy.github.io/helm-charts/",
     "path": "Applications/media/eros.yaml",
+    "ingress_url": "https://eros.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/eros.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1619,6 +1941,8 @@
     "chart": "qbittorrent",
     "repo": "https://charts.gabe565.com",
     "path": "Applications/media/qbittorrent.yaml",
+    "ingress_url": "https://qbittorrent.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/qbittorrent.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1629,6 +1953,8 @@
     "chart": "app-template",
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/media/sonarr.yaml",
+    "ingress_url": "https://sonarr.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sonarr.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1639,6 +1965,8 @@
     "chart": "calibre",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/media/calibre.yaml",
+    "ingress_url": "https://calibre.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/calibre.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1649,6 +1977,8 @@
     "chart": "photoprism",
     "repo": "https://andrenarchy.github.io/helm-charts/",
     "path": "Applications/media/photoprism.yaml",
+    "ingress_url": "https://photoprism.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/photoprism.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1659,6 +1989,8 @@
     "chart": "youtubedl-material",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/media/youtubedl.yaml",
+    "ingress_url": "https://youtubedl.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/youtubedl.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1669,6 +2001,8 @@
     "chart": "deemix",
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/media/deemix.yaml",
+    "ingress_url": "https://deemix.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/deemix.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1679,6 +2013,8 @@
     "chart": "jellyfin",
     "repo": "ghcr.io/m0nsterrr/helm-charts",
     "path": "Applications/media/jellyfin-pgsql.yaml",
+    "ingress_url": "https://flix.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/jellyfin-pgsql.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1689,6 +2025,8 @@
     "chart": "immich",
     "repo": "ghcr.io/immich-app/immich-charts",
     "path": "Applications/media/immich.yaml",
+    "ingress_url": "https://immich.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1699,6 +2037,8 @@
     "chart": "open-webui",
     "repo": "https://helm.openwebui.com",
     "path": "Applications/ai/open-webui.yaml",
+    "ingress_url": "https://openwebui.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/open-webui.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1709,6 +2049,8 @@
     "chart": "qdrant",
     "repo": "https://qdrant.github.io/qdrant-helm",
     "path": "Applications/ai/qdrant.yaml",
+    "ingress_url": "https://qdrant.p.zacharie.org",
+    "icon_url": "https://logo.svgcdn.com/logos/qdrant.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1719,6 +2061,8 @@
     "chart": "anything-llm",
     "repo": "https://la-cc.github.io/anything-llm-helm-chart",
     "path": "Applications/ai/anything-llm.yaml",
+    "ingress_url": "https://anything-llm.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/anything-llm.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1729,6 +2073,8 @@
     "chart": "values/ai/memgraph/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/memgraph.yaml",
+    "ingress_url": "https://memgraph.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/memgraph.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1739,6 +2085,8 @@
     "chart": "values/ai/gpu-hot/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/gpu-hot.yaml",
+    "ingress_url": "https://gpu-hot.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gpu-hot.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1749,6 +2097,8 @@
     "chart": "values/ai/pylos/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/pylos.yaml",
+    "ingress_url": "https://pylos.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pylos.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1759,6 +2109,8 @@
     "chart": "charts/graphon",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/graphon.yaml",
+    "ingress_url": "https://graphon.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/graphon.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1769,6 +2121,8 @@
     "chart": "values/ai/pylos-dev/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/pylos-dev.yaml",
+    "ingress_url": "https://pylos-dev.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pylos.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1779,6 +2133,8 @@
     "chart": "charts/openmed",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/openmed.yaml",
+    "ingress_url": "https://openmed.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/openmed.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1789,6 +2145,8 @@
     "chart": "charts/llama-cpp",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/llama-cpp.yaml",
+    "ingress_url": "https://llama-cpp.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/llama-cpp.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1799,6 +2157,8 @@
     "chart": "charts/open-notebook",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/open-notebook.yaml",
+    "ingress_url": "https://open-notebook.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/open-notebook.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1809,6 +2169,8 @@
     "chart": "ollama",
     "repo": "https://otwld.github.io/ollama-helm/",
     "path": "Applications/ai/ollama.yaml",
+    "ingress_url": "https://ollama.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ollama.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1819,6 +2181,8 @@
     "chart": "lobe-chat",
     "repo": "https://darox.github.io/helm-charts/",
     "path": "Applications/ai/lobe-chat.yaml",
+    "ingress_url": "https://lobe-chat.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/lobe-chat.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1829,6 +2193,8 @@
     "chart": "values/ai/lemonade/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/lemonade.yaml",
+    "ingress_url": "https://lemonade.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/lemonade.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1839,6 +2205,8 @@
     "chart": "chromadb",
     "repo": "https://infracloudio.github.io/charts",
     "path": "Applications/ai/chromadb.yaml",
+    "ingress_url": "https://chromadb.p.zacharie.org",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1849,6 +2217,8 @@
     "chart": "whisperx",
     "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
     "path": "Applications/ai/whisperx.yaml",
+    "ingress_url": "https://whisperx-active.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/whisperx.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1859,6 +2229,8 @@
     "chart": "values/ai/opencode/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/opencode-ai.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/opencode-ai.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1869,6 +2241,8 @@
     "chart": "charts/litellm",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/litellm.yaml",
+    "ingress_url": "https://litellm.p.zacharie.org",
+    "icon_url": "https://litellm.p.zacharie.org/get_image",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1879,6 +2253,8 @@
     "chart": "bifrost",
     "repo": "https://maximhq.github.io/bifrost/helm-charts",
     "path": "Applications/ai/bifrost.yaml",
+    "ingress_url": "https://bifrost.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/bifrost.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1889,6 +2265,8 @@
     "chart": "values/ai/libre-chat/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/libre-chat.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/libre-chat.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1899,6 +2277,8 @@
     "chart": "k8sgpt-operator",
     "repo": "https://charts.k8sgpt.ai",
     "path": "Applications/ai/k8sgpt.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/k8sgpt.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1909,6 +2289,8 @@
     "chart": "charts/antigravity",
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/antigravity.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/antigravity.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1919,6 +2301,8 @@
     "chart": "values/ai/docling/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/ai/docling.yaml",
+    "ingress_url": "https://docling-active.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/docling.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1929,6 +2313,8 @@
     "chart": "values/storage/pg-sbx-vs/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/pg-sbx-vs.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pg-vs.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1939,6 +2325,8 @@
     "chart": "values/storage/pg-prd/manifests/",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/pg-prd.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pg.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1949,6 +2337,8 @@
     "chart": "proxmox-csi-plugin",
     "repo": "ghcr.io/sergelogvinov/charts",
     "path": "Applications/storage/proxmox-csi.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/proxmox-csi.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1959,6 +2349,8 @@
     "chart": "rustfs",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/rustfs.yaml",
+    "ingress_url": "https://rustfs.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/rustfs.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1969,6 +2361,8 @@
     "chart": "nfs-client-provisioner",
     "repo": "https://charts.kubesphere.io/main",
     "path": "Applications/storage/nfs-client.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nfs-client.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1979,6 +2373,8 @@
     "chart": "values/storage/pg-sbx/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/pg-sbx.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pg.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1989,6 +2385,8 @@
     "chart": "nfs-client-provisioner",
     "repo": "https://charts.kubesphere.io/main",
     "path": "Applications/storage/nfs-client-jonas.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nfs-client-jonas.png",
     "status": "Active",
     "badge_class": "badge-active"
   },
@@ -1999,6 +2397,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/facefusion.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/facefusion.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2009,6 +2409,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/steampipe-powerpipe.yaml.disable",
+    "ingress_url": "https://powerpipe.p.zacharie.org",
+    "icon_url": "https://powerpipe.io/images/powerpipe-logo.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2019,6 +2421,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/pgadmin4.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pgadmin4.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2029,6 +2433,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/sorry-cypress-sbx.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sorry-cypress.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2039,6 +2445,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/proton-bridge.yaml.disable",
+    "ingress_url": "https://proton-bridge.p.zacharie.org",
+    "icon_url": "https://proton.me/favicons/apple-touch-icon.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2049,6 +2457,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/blinko.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/blinko.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2059,6 +2469,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/tei.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/tei.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2069,6 +2481,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/tandoor.yaml.disable",
+    "ingress_url": "https://tandoor.p.zacharie.org",
+    "icon_url": "https://repository-images.githubusercontent.com/221546437/4d9e5700-6e25-11eb-9c02-4c848eb9b2a9",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2079,6 +2493,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/litellm-pgvector.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/litellm-pgvector.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2089,6 +2505,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/prerender.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/prerender.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2099,6 +2517,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/openclaw.yaml.disable",
+    "ingress_url": "https://openclaw.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/openclaw.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2109,6 +2529,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/language-tool.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/language-tool.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2119,6 +2541,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/pd3f.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pd3f.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2129,6 +2553,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/velld.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/velld.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2139,6 +2565,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/simple-irc-server.yaml.disable",
+    "ingress_url": "https://irc.p.zacharie.org",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Irc.svg",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2149,6 +2577,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/mnemosyne.yaml.disable",
+    "ingress_url": "https://search.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mnemosyne.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2159,6 +2589,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/traccar.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/traccar.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2169,6 +2601,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/home-assistant.yaml.disable",
+    "ingress_url": "https://hak.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/home-assistant.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2179,6 +2613,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/nv-manager.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nv-manager.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2189,6 +2625,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/openvas.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/openvas.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2199,6 +2637,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/dnsweaver.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dnsweaver.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2209,6 +2649,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/scriberr.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/scriberr.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2219,6 +2661,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/stirling-pdf.yaml.disable",
+    "ingress_url": "https://stirling-pdf.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/stirling-pdf.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2229,6 +2673,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/shadowbroker.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/shadowbroker.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2239,6 +2685,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/chartdb.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/chartdb.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2249,6 +2697,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/keda-waiting-page.yaml.disable",
+    "ingress_url": "https://keda-status.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keda-waiting-page.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2259,6 +2709,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/transmission.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2269,6 +2721,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/garage.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/garage.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2279,6 +2733,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/redis-s.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redis-s.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2289,6 +2745,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/keryx.yaml.disable",
+    "ingress_url": "https://orchestrator.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keryx.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2299,6 +2757,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/vllm.yaml.disable",
+    "ingress_url": "https://vllm.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/vllm.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2309,6 +2769,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/linkwarden.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linkwarden.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2319,6 +2781,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/qwen3-tts.yaml.disable",
+    "ingress_url": "https://qwen-tts.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/qwen3-tts.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2329,6 +2793,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/netbox.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/netbox.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2339,6 +2805,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/vault-sbx.yaml.disable",
+    "ingress_url": "https://vault-sbx.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/vault.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2349,6 +2817,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/radarr.yaml.disable",
+    "ingress_url": "https://radarr.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/radarr.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2359,6 +2829,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/chaos-mesh.yaml.disable",
+    "ingress_url": "https://chaos-mesh.zacharie.org",
+    "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2369,6 +2841,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/f5-tts.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/f5-tts.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2379,6 +2853,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/urocissa.yaml.disable",
+    "ingress_url": "https://urocissa.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/urocissa.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2389,6 +2865,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/rsshub.yaml.disable",
+    "ingress_url": "https://rsshub.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/rsshub.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2399,6 +2877,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/rust-s3-asr.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/rust-s3-asr.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2409,6 +2889,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/metabase.yaml.disable",
+    "ingress_url": "https://metabase.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/metabase.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2419,6 +2901,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/mimir-distributed.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mimir-distributed.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2429,6 +2913,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/hermes-agent.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/hermes-agent.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2439,6 +2925,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/google-mcp.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/google-mcp.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2449,6 +2937,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/sysctl-inotify-patcher.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sysctl-inotify-patcher.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2459,6 +2949,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/nextexplorer.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nextexplorer.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2469,6 +2961,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/thelounge.yaml.disable",
+    "ingress_url": "https://thelounge.p.zacharie.org",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2479,6 +2973,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/chatterbox.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/chatterbox.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2489,6 +2985,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/guacamole sbx.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/guacamole sbx.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2499,6 +2997,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/maintenance.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/maintenance.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2509,6 +3009,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/budibase.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/budibase.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2519,6 +3021,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/plausible-analytics.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/plausible-analytics.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2529,6 +3033,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/fundy.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/fundy.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2539,6 +3045,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/argocd-notifications.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/argocd-notifications.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2549,6 +3057,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/loadrunner.yaml.disable",
+    "ingress_url": "https://loadrunner.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/loadrunner.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2559,6 +3069,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/appflowy-sbx.yaml.disabled",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/appflowyd.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2569,6 +3081,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/cert-manager-webhook-gandi.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cert-manager-webhook-gandi.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2579,6 +3093,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/qwen-image-layered.yaml.disable",
+    "ingress_url": "https://qwen-image-layered.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/qwen-image-layered.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2589,6 +3105,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/antigravity-remote-docker.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/antigravity-remote-docker.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2599,6 +3117,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/descheduler.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/descheduler.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2609,6 +3129,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/redis.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redis.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2619,6 +3141,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/redis-n.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redis-n.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2629,6 +3153,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/paperless-gpt.yaml.disable",
+    "ingress_url": "https://paperlessgpt.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/paperless-gpt.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2639,6 +3165,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/sim.yaml.disable",
+    "ingress_url": "https://sim.p.zacharie.org",
+    "icon_url": "https://www.sim.ai/logo/primary/rounded.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2649,6 +3177,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/nav.yaml",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nav.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2659,6 +3189,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/keycloak.yaml.disable",
+    "ingress_url": "https://keycloak.p.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/keycloak.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2669,6 +3201,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/karakeep.yaml.disable",
+    "ingress_url": "https://karakeep.p.zacharie.org",
+    "icon_url": "https://play-lh.googleusercontent.com/95d3e2a2-m4WVn7RYmdlOpdXJditxSpj4iVCF70aWPxJUQEP1HOdbiUg6L2GDOHfFV8=w240-h480-rw",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2679,6 +3213,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/openai-whisper-asr-webservice.yaml.disable",
+    "ingress_url": "https://openai-whisper-asr-webservice-active.zacharie.org",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/openai-whisper-asr-webservice.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   },
@@ -2689,6 +3225,8 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/gel3-dev.yaml.disable",
+    "ingress_url": "",
+    "icon_url": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gel3.png",
     "status": "Disabled",
     "badge_class": "badge-disabled"
   }
@@ -2706,24 +3244,39 @@
             apps.forEach(app => {
                 const card = document.createElement("div");
                 card.className = "app-card";
+                
+                const ingressHtml = app.ingress_url ? 
+                    `<a href="${app.ingress_url}" target="_blank" rel="noopener noreferrer" class="ingress-btn">🌐 Ouvrir l'application (${app.ingress_url.replace("https://", "")})</a>` : 
+                    `<div class="no-ingress">Aucune route Ingress publique</div>`;
+
+                const fallbackSvg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="%236366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 14h6"/><path d="M12 9v6"/></svg>`;
+
                 card.innerHTML = `
-                    <div class="app-header">
-                        <div class="app-title">${app.name}</div>
-                        <span class="badge ${app.badge_class}">${app.status}</span>
+                    <div>
+                        <div class="app-header">
+                            <div class="app-title-group">
+                                <img class="app-icon" src="${app.icon_url}" alt="${app.name}" onerror="this.onerror=null; this.src='${fallbackSvg}';">
+                                <div class="app-title">${app.name}</div>
+                            </div>
+                            <span class="badge ${app.badge_class}">${app.status}</span>
+                        </div>
+                        <div class="app-meta">
+                            <div class="meta-row">
+                                <span>Projet :</span>
+                                <span class="val">${app.project}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span>Namespace :</span>
+                                <span class="val">${app.namespace}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span>Source / Chart :</span>
+                                <span class="val" title="${app.chart}">${app.chart.length > 22 ? app.chart.substring(0, 19) + '...' : app.chart}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="app-meta">
-                        <div class="meta-row">
-                            <span>Projet :</span>
-                            <span class="val">${app.project}</span>
-                        </div>
-                        <div class="meta-row">
-                            <span>Namespace :</span>
-                            <span class="val">${app.namespace}</span>
-                        </div>
-                        <div class="meta-row">
-                            <span>Source / Chart :</span>
-                            <span class="val" title="${app.chart}">${app.chart.length > 25 ? app.chart.substring(0, 22) + '...' : app.chart}</span>
-                        </div>
+                    <div>
+                        ${ingressHtml}
                     </div>
                 `;
                 grid.appendChild(card);
@@ -2739,6 +3292,7 @@
                 const matchSearch = app.name.toLowerCase().includes(search) || 
                                     app.project.toLowerCase().includes(search) || 
                                     app.namespace.toLowerCase().includes(search) ||
+                                    app.ingress_url.toLowerCase().includes(search) ||
                                     app.chart.toLowerCase().includes(search);
                 const matchProject = (project === "ALL" || app.project === project);
                 const matchStatus = (status === "ALL" || app.status === status);
