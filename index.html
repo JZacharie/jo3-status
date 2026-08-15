@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>jo3 GitOps — Vue 360° Status & Securité</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #090d16;
-            --bg-card: rgba(17, 24, 39, 0.78);
-            --bg-card-hover: rgba(28, 38, 62, 0.92);
+            --bg-card: rgba(17, 24, 39, 0.82);
+            --bg-card-hover: rgba(28, 38, 62, 0.95);
             --border: rgba(255, 255, 255, 0.08);
             --accent-primary: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.25);
@@ -166,7 +169,7 @@
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 1.35rem;
         }
 
@@ -189,25 +192,29 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
-        .app-header {
+        .app-header-block {
+            margin-bottom: 0.9rem;
+        }
+
+        .app-top-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 0.5rem;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.5rem;
         }
 
         .app-title-group {
             display: flex;
             align-items: center;
-            gap: 0.65rem;
-            min-width: 0;
+            gap: 0.75rem;
             flex: 1;
+            min-width: 0;
         }
 
         .app-icon-wrapper {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.06);
             display: flex;
@@ -226,28 +233,27 @@
         }
 
         .app-title {
-            font-size: 1.1rem;
+            font-size: 1.18rem;
             font-weight: 700;
-            color: #fff;
+            color: #ffffff;
             font-family: 'JetBrains Mono', monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            word-break: break-word;
+            line-height: 1.25;
         }
 
         .badge-group {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
-            flex-shrink: 0;
+            gap: 0.4rem;
             flex-wrap: wrap;
-            justify-content: flex-end;
         }
 
         .badge {
-            padding: 0.25rem 0.55rem;
-            border-radius: 20px;
-            font-size: 0.68rem;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
@@ -297,16 +303,20 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 8px;
-            padding: 0.65rem;
+            padding: 0.75rem;
             margin-bottom: 1rem;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
         }
 
         .probe-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .probe-row:last-child {
+            margin-bottom: 0;
         }
 
         .ingress-btn {
@@ -382,7 +392,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Gitleaks')">
                 <div class="label">Alerte Gitleaks / Passwords</div>
-                <div class="value" style="color: #ef4444;">699</div>
+                <div class="value" style="color: #ef4444;">82</div>
             </div>
         </div>
 
@@ -467,7 +477,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/miniflux.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "ghcr.io/miniflux/miniflux",
     "tag": "2.2.13",
     "probe": {
@@ -782,7 +792,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/paperless-ngx.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 10,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -824,7 +834,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/docspell.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 8,
+    "gitleaks_count": 0,
     "image": "tag",
     "tag": "null",
     "probe": {
@@ -887,7 +897,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/planka.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "1.26.3",
     "probe": {
@@ -929,7 +939,7 @@
     "icon_url": "https://raw.githubusercontent.com/sighupio/permission-manager/master/web/src/assets/logo.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -950,7 +960,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/awx.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -992,7 +1002,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/filebrowser.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -1391,7 +1401,7 @@
     "icon_url": "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/rabbitmq-icon-i64x9hzvue8q5nrr52ei3.png/rabbitmq-icon-fd1792c5uscn3uef5ew1u.png?_a=DATAg1AAZAA0",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "rabbitmq",
     "tag": "4.2.2-management",
     "probe": {
@@ -1412,7 +1422,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/n8n.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 12,
+    "gitleaks_count": 2,
     "image": "",
     "tag": "",
     "probe": {
@@ -1433,7 +1443,7 @@
     "icon_url": "https://argoproj.github.io/static/3748e3a7881fe3b037f2401b65943dc0/93d75/rollouts.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -1475,7 +1485,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-mcp.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -1874,7 +1884,7 @@
     "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 64,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -1979,7 +1989,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/n8n.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 1,
     "image": "jzacharie/n8n-mcp",
     "tag": "latest",
     "probe": {
@@ -2000,7 +2010,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/cloudflare-tunnel.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -2021,7 +2031,7 @@
     "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 32,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -2399,7 +2409,7 @@
     "icon_url": "https://avatars.githubusercontent.com/u/101834114?s=200&v=4",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "0.0.5",
     "probe": {
@@ -2420,7 +2430,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/homepage.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 20,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -2462,7 +2472,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/gatus.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "v5.21.0",
     "probe": {
@@ -2504,7 +2514,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/opentelemetry-operator.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "0.137.0",
     "probe": {
@@ -2567,7 +2577,7 @@
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 10,
+    "gitleaks_count": 0,
     "image": "aceberg/watchyourlan",
     "tag": "2.1.4",
     "probe": {
@@ -2588,7 +2598,7 @@
     "icon_url": "https://avatars.githubusercontent.com/u/95867656?s=280&v=4",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 32,
+    "gitleaks_count": 2,
     "image": "oss",
     "tag": "latest",
     "probe": {
@@ -2609,7 +2619,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/grafana.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 34,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -2672,7 +2682,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/kube-prometheus-stack.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -2777,7 +2787,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/vault.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "1.21.1",
     "probe": {
@@ -2882,7 +2892,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/external-secrets.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -2903,7 +2913,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trivy.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "registry",
     "tag": "0.24.1",
     "probe": {
@@ -2924,7 +2934,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/cert-manager.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -2987,7 +2997,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/emqx.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "5.8.7",
     "probe": {
@@ -3008,7 +3018,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/plex-organizer.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3155,7 +3165,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/eros.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -3239,7 +3249,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/photoprism.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 10,
+    "gitleaks_count": 2,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -3302,7 +3312,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin-pgsql.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "registry",
     "tag": "latest",
     "probe": {
@@ -3323,7 +3333,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/immich.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "tag",
     "tag": "9.0-alpine",
     "probe": {
@@ -3365,7 +3375,7 @@
     "icon_url": "https://logo.svgcdn.com/logos/qdrant.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "v1.17.1",
     "probe": {
@@ -3386,7 +3396,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/anything-llm.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "1.11.0",
     "probe": {
@@ -3449,7 +3459,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/pylos.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 46,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3470,7 +3480,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/graphon.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 14,
+    "gitleaks_count": 2,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -3491,7 +3501,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/pylos.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 45,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3554,7 +3564,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/open-notebook.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3575,7 +3585,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/ollama.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "ollama/ollama",
     "tag": "0.30.7",
     "probe": {
@@ -3596,7 +3606,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/lobe-chat.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3617,7 +3627,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/lemonade.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3659,7 +3669,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/whisperx.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "r8.im/victor-upmeet/whisperx",
     "tag": "latest",
     "probe": {
@@ -3701,7 +3711,7 @@
     "icon_url": "https://litellm.p.zacharie.org/get_image",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 122,
+    "gitleaks_count": 56,
     "image": "ghcr.io/berriai/litellm-database",
     "tag": "latest-stable",
     "probe": {
@@ -3722,7 +3732,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/bifrost.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 28,
+    "gitleaks_count": 2,
     "image": "repository",
     "tag": "v1.5.0",
     "probe": {
@@ -3743,7 +3753,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/libre-chat.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 16,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -3827,7 +3837,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/pg.png",
     "status": "Active",
     "badge_class": "badge-active",
-    "gitleaks_count": 5,
+    "gitleaks_count": 1,
     "image": "",
     "tag": "",
     "probe": {
@@ -3995,7 +4005,7 @@
     "icon_url": "https://powerpipe.io/images/powerpipe-logo.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -4100,7 +4110,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/tei.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -4121,7 +4131,7 @@
     "icon_url": "https://repository-images.githubusercontent.com/221546437/4d9e5700-6e25-11eb-9c02-4c848eb9b2a9",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 4,
+    "gitleaks_count": 2,
     "image": "ghcr.io/tandoorrecipes/recipes",
     "tag": "1.5.27",
     "probe": {
@@ -4142,7 +4152,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/litellm-pgvector.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -4184,7 +4194,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/openclaw.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "2026.2.15",
     "probe": {
@@ -4331,7 +4341,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/home-assistant.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 4,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "2026.2.3",
     "probe": {
@@ -4394,7 +4404,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/dnsweaver.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "v1.6.0",
     "probe": {
@@ -4457,7 +4467,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/shadowbroker.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 6,
+    "gitleaks_count": 0,
     "image": "pullPolicy",
     "tag": "latest",
     "probe": {
@@ -4583,7 +4593,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/keryx.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 22,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -4646,7 +4656,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/qwen3-tts.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
     "probe": {
@@ -4688,7 +4698,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/vault.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 1,
+    "gitleaks_count": 0,
     "image": "repository",
     "tag": "1.21.1",
     "probe": {
@@ -4814,7 +4824,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/rust-s3-asr.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 10,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -4856,7 +4866,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mimir-distributed.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "docker.io/grafana/mimir",
     "tag": "1.6.39-alpine",
     "probe": {
@@ -5297,7 +5307,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/paperless-gpt.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "",
     "tag": "",
     "probe": {
@@ -5318,7 +5328,7 @@
     "icon_url": "https://www.sim.ai/logo/primary/rounded.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 4,
+    "gitleaks_count": 2,
     "image": "repository",
     "tag": "v0.5.59",
     "probe": {
@@ -5360,7 +5370,7 @@
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/keycloak.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
-    "gitleaks_count": 2,
+    "gitleaks_count": 0,
     "image": "keycloak/keycloak",
     "tag": "26.5.1",
     "probe": {
@@ -5435,11 +5445,6 @@
   }
 ];
 
-        function cleanVer(v) {
-            if (!v) return "latest";
-            return v.toString().replace(/^v+/i, "");
-        }
-
         function handleIconError(img, appName) {
             const wrapper = img.parentElement;
             const clean = appName.replace(/^joe3-|^jo3-|-sbx|-dev|-prd|-vs/g, "");
@@ -5485,22 +5490,28 @@
                     `<div class="no-ingress">Aucune route Ingress publique</div>`;
 
                 const updateBadge = app.probe.status === "UPDATE_AVAILABLE" ?
-                    `<span class="badge badge-update">🚀 v${cleanVer(app.probe.latest)}</span>` : '';
+                    `<span class="badge badge-update">🚀 Upgrade v${app.probe.latest}</span>` : '';
 
                 const gitleakColor = app.gitleaks_count > 0 ? '#ef4444' : '#10b981';
 
+                const probeHtml = app.probe.status === "UPDATE_AVAILABLE" ?
+                    `🚀 v${app.probe.current} ➔ v${app.probe.latest}` :
+                    `✅ v${app.probe.current}`;
+
                 card.innerHTML = `
                     <div>
-                        <div class="app-header">
-                            <div class="app-title-group">
-                                <div class="app-icon-wrapper">
-                                    <img class="app-icon" src="${app.icon_url}" alt="${app.name}" onerror="handleIconError(this, '${app.name}')">
+                        <div class="app-header-block">
+                            <div class="app-top-row">
+                                <div class="app-title-group">
+                                    <div class="app-icon-wrapper">
+                                        <img class="app-icon" src="${app.icon_url}" alt="${app.name}" onerror="handleIconError(this, '${app.name}')">
+                                    </div>
+                                    <div class="app-title">${app.name}</div>
                                 </div>
-                                <div class="app-title" title="${app.name}">${app.name}</div>
-                            </div>
-                            <div class="badge-group">
-                                <span class="badge ${app.badge_class}">${app.status}</span>
-                                ${updateBadge}
+                                <div class="badge-group">
+                                    <span class="badge ${app.badge_class}">${app.status}</span>
+                                    ${updateBadge}
+                                </div>
                             </div>
                         </div>
 
@@ -5508,7 +5519,7 @@
                             <div class="probe-row">
                                 <span style="color: var(--text-muted);">Sonde Image :</span>
                                 <span style="font-family: 'JetBrains Mono', monospace; font-weight:600; color: ${app.probe.status === 'UPDATE_AVAILABLE' ? '#fbbf24' : '#10b981'};">
-                                    ${app.probe.status === 'UPDATE_AVAILABLE' ? '🚀 v' + cleanVer(app.probe.current) + ' ➔ v' + cleanVer(app.probe.latest) : '✅ v' + cleanVer(app.probe.current)}
+                                    ${probeHtml}
                                 </span>
                             </div>
                             <div class="probe-row">
