@@ -1,0 +1,2756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jo3 GitOps — Status Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0d14;
+            --bg-card: rgba(18, 24, 38, 0.75);
+            --bg-card-hover: rgba(28, 36, 56, 0.85);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent-primary: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.2);
+            --warning: #f59e0b;
+            --disabled: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-title h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .app-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge {
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-active {
+            background: var(--success-glow);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .badge-disabled {
+            background: rgba(107, 114, 128, 0.2);
+            color: var(--disabled);
+            border: 1px solid rgba(107, 114, 128, 0.3);
+        }
+
+        .app-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meta-row span.val {
+            color: #d1d5db;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <div class="logo-title">
+                    <span style="font-size: 2rem;">🌌</span>
+                    <h1>jo3 GitOps Applications Dashboard</h1>
+                </div>
+                <p class="subtitle">Tableau de bord interactif de l'état des applications Kubernetes & ArgoCD</p>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Applications</div>
+                <div class="value" style="color: #6366f1;">239</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Actives (ArgoCD)</div>
+                <div class="value" style="color: #10b981;">169</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Désactivées</div>
+                <div class="value" style="color: #6b7280;">70</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Projets & Catégories</div>
+                <div class="value" style="color: #f59e0b;">12</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Rechercher une application, namespace, chart..." oninput="filterApps()">
+            </div>
+            <select id="projectFilter" class="filter-select" onchange="filterApps()">
+                <option value="ALL">Tous les projets</option>
+                <option value="ai">ai</option><option value="default">default</option><option value="dev-tools">dev-tools</option><option value="disabled">disabled</option><option value="home">home</option><option value="infrastructure">infrastructure</option><option value="media">media</option><option value="observability">observability</option><option value="productivity">productivity</option><option value="sandbox">sandbox</option><option value="security">security</option><option value="storage">storage</option>
+            </select>
+            <select id="statusFilter" class="filter-select" onchange="filterApps()">
+                <option value="ALL">Tous les statuts</option>
+                <option value="Active">Actives</option>
+                <option value="Disabled">Désactivées</option>
+            </select>
+        </div>
+
+        <div class="apps-grid" id="appsGrid">
+            <!-- Rendered by JS -->
+        </div>
+
+        <footer>
+            Généré automatiquement par le workflow CI jo3 GitOps Dashboard • Mis à jour régulièrement
+        </footer>
+    </div>
+
+    <script>
+        const rawApps = [
+  {
+    "name": "changedetection-io",
+    "project": "productivity",
+    "namespace": "changedetection-io",
+    "chart": "changedetection-io",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/changedetection-io.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "littlelink-server",
+    "project": "productivity",
+    "namespace": "littlelink-server",
+    "chart": "littlelink-server",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/productivity/littlelink-server.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "miniflux",
+    "project": "productivity",
+    "namespace": "miniflux",
+    "chart": "miniflux",
+    "repo": "https://charts.gabe565.com",
+    "path": "Applications/productivity/miniflux.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "psitransfer",
+    "project": "productivity",
+    "namespace": "psitransfer",
+    "chart": "psitransfer",
+    "repo": "https://halkeye.github.io/helm-charts",
+    "path": "Applications/productivity/psitransfer.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nocodb",
+    "project": "productivity",
+    "namespace": "nocodb",
+    "chart": "nocodb",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/nocodb.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "shannon",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "charts/shannon",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/productivity/shannon.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "sockpuppetbrowser",
+    "project": "productivity",
+    "namespace": "sockpuppetbrowser",
+    "chart": "sockpuppetbrowser",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/sockpuppetbrowser.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "readur",
+    "project": "productivity",
+    "namespace": "readur",
+    "chart": "readur",
+    "repo": "https://readur.github.io/readur/",
+    "path": "Applications/productivity/readur.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pandoc",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "charts/pandoc",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/productivity/pandoc.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "ihatemoney",
+    "project": "productivity",
+    "namespace": "ihatemoney",
+    "chart": "ihatemoney",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/productivity/ihatemoney.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "karma",
+    "project": "productivity",
+    "namespace": "karma",
+    "chart": "karma",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/karma.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "convertx",
+    "project": "productivity",
+    "namespace": "convertx",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/productivity/convertx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "actualbudget",
+    "project": "productivity",
+    "namespace": "actualbudget",
+    "chart": "actualbudget",
+    "repo": "https://community-charts.github.io/helm-charts",
+    "path": "Applications/productivity/actualbudget.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "outline-v2",
+    "project": "productivity",
+    "namespace": "outline",
+    "chart": "charts/outline",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/productivity/outline.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "maker-management-platform",
+    "project": "productivity",
+    "namespace": "maker-management-platform",
+    "chart": "maker-management-platform",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/productivity/maker-management-platform.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "redirection",
+    "project": "productivity",
+    "namespace": "redirection-namespace",
+    "chart": "values/productivity/redirection-namespace/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/productivity/redirection.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "docuseal",
+    "project": "productivity",
+    "namespace": "docuseal",
+    "chart": "docuseal",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/docuseal.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "paperless",
+    "project": "productivity",
+    "namespace": "paperless",
+    "chart": "paperless",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/productivity/paperless.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "freshrss",
+    "project": "productivity",
+    "namespace": "geek-cookbook",
+    "chart": "freshrss",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/productivity/freshrss.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "docspell",
+    "project": "productivity",
+    "namespace": "docspell",
+    "chart": "docspell",
+    "repo": "https://docspell.github.io/docker",
+    "path": "Applications/productivity/docspell.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "itop",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "itop",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/productivity/itop.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "readeck",
+    "project": "productivity",
+    "namespace": "readeck",
+    "chart": "readeck",
+    "repo": "https://zekker6.github.io/helm-charts",
+    "path": "Applications/productivity/readeck.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "planka",
+    "project": "productivity",
+    "namespace": "planka",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/productivity/planka.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "excalidraw",
+    "project": "dev-tools",
+    "namespace": "excalidraw",
+    "chart": "excalidraw",
+    "repo": "https://pmoscode-helm.github.io/excalidraw/",
+    "path": "Applications/dev-tools/excalidraw.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "permission-manager",
+    "project": "dev-tools",
+    "namespace": "permission-manager",
+    "chart": "permission-manager",
+    "repo": "https://sighupio.github.io/permission-manager",
+    "path": "Applications/dev-tools/permission-manager.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "awx",
+    "project": "dev-tools",
+    "namespace": "-",
+    "chart": "values/dev-tools/awx/manifests/",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/dev-tools/awx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kargo",
+    "project": "dev-tools",
+    "namespace": "kargo",
+    "chart": "kargo",
+    "repo": "ghcr.io/akuity/kargo-charts",
+    "path": "Applications/dev-tools/kargo.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "filebrowser-quantum",
+    "project": "dev-tools",
+    "namespace": "filebrowser-quantum",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/dev-tools/filebrowser-quantum.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "wh2pg",
+    "project": "dev-tools",
+    "namespace": "wh2pg",
+    "chart": "wh2pg-chart",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/dev-tools/wh2pg.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "k6-operator",
+    "project": "dev-tools",
+    "namespace": "k6-operator",
+    "chart": "k6-operator",
+    "repo": "https://grafana.github.io/helm-charts",
+    "path": "Applications/dev-tools/k6-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "persistence-defectdojo",
+    "project": "dev-tools",
+    "namespace": "devsecops",
+    "chart": "persistence-defectdojo",
+    "repo": "https://charts.securecodebox.io",
+    "path": "Applications/dev-tools/persistence-defectdojo.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "renovate",
+    "project": "dev-tools",
+    "namespace": "renovate",
+    "chart": "renovate",
+    "repo": "https://docs.renovatebot.com/helm-charts",
+    "path": "Applications/dev-tools/renovate.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "opencode-dev-tools",
+    "project": "dev-tools",
+    "namespace": "dev-tools",
+    "chart": "values/dev-tools/opencode/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/dev-tools/opencode-dev-tools.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "elara",
+    "project": "dev-tools",
+    "namespace": "dev-tools",
+    "chart": "elara",
+    "repo": "https://sergeyslonimsky.github.io/elara",
+    "path": "Applications/dev-tools/elara.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "termix",
+    "project": "dev-tools",
+    "namespace": "termix",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/dev-tools/termix.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "it-tools",
+    "project": "dev-tools",
+    "namespace": "it-tools",
+    "chart": "it-tools",
+    "repo": "ghcr.io/plcnk/charts",
+    "path": "Applications/dev-tools/it-tools.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cloudbeaver",
+    "project": "dev-tools",
+    "namespace": "cloudbeaver",
+    "chart": "values/dev-tools/cloudbeaver/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/dev-tools/cloudbeaver.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "zap-advanced",
+    "project": "dev-tools",
+    "namespace": "devsecops",
+    "chart": "zap-advanced",
+    "repo": "https://charts.securecodebox.io",
+    "path": "Applications/dev-tools/zap-advanced.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "swaggerui",
+    "project": "dev-tools",
+    "namespace": "swaggerui",
+    "chart": "swaggerui",
+    "repo": "https://cetic.github.io/helm-charts",
+    "path": "Applications/dev-tools/swaggerui.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "gotenberg",
+    "project": "dev-tools",
+    "namespace": "gotenberg",
+    "chart": "gotenberg",
+    "repo": "https://kurt108.github.io/helm-charts/",
+    "path": "Applications/dev-tools/gotenberg.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "k6-demo",
+    "project": "dev-tools",
+    "namespace": "k6-operator",
+    "chart": "manifests/infrastructure/k6-demo",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/dev-tools/k6-demo.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "awx-operator",
+    "project": "dev-tools",
+    "namespace": "awx",
+    "chart": "awx-operator",
+    "repo": "https://ansible-community.github.io/awx-operator-helm/",
+    "path": "Applications/dev-tools/awx-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cyberchef",
+    "project": "dev-tools",
+    "namespace": "cyberchef",
+    "chart": "cyberchef",
+    "repo": "https://charts.obeone.cloud",
+    "path": "Applications/dev-tools/cyberchef.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kube-ops-view",
+    "project": "infrastructure",
+    "namespace": "kube-ops-view",
+    "chart": "kube-ops-view",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/infrastructure/kube-ops-view.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cilium",
+    "project": "infrastructure",
+    "namespace": "kube-system",
+    "chart": "cilium",
+    "repo": "https://helm.cilium.io/",
+    "path": "Applications/infrastructure/cilium.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "node-red",
+    "project": "infrastructure",
+    "namespace": "node-red",
+    "chart": "node-red",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/infrastructure/node-red.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "rabbitmq",
+    "project": "infrastructure",
+    "namespace": "infrastructure",
+    "chart": "rabbitmq",
+    "repo": "https://cloudpirates-io.github.io/helm-charts",
+    "path": "Applications/infrastructure/rabbitmq.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "n8n",
+    "project": "infrastructure",
+    "namespace": "n8n",
+    "chart": "n8n",
+    "repo": "https://community-charts.github.io/helm-charts",
+    "path": "Applications/infrastructure/n8n.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "argo-workflows",
+    "project": "infrastructure",
+    "namespace": "argo-workflows",
+    "chart": "argo-workflows",
+    "repo": "https://argoproj.github.io/argo-helm",
+    "path": "Applications/infrastructure/argo-workflows.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "fluent-bit",
+    "project": "infrastructure",
+    "namespace": "awx",
+    "chart": "fluent-bit",
+    "repo": "https://fluent.github.io/helm-charts",
+    "path": "Applications/infrastructure/fluent-bit.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "github-mcp",
+    "project": "infrastructure",
+    "namespace": "github-mcp",
+    "chart": "values/infrastructure/github-mcp/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/github-mcp.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "browserless-chrome",
+    "project": "infrastructure",
+    "namespace": "browserless-chrome",
+    "chart": "browserless-chrome",
+    "repo": "https://charts.sagikazarmark.dev",
+    "path": "Applications/infrastructure/browserless-chrome.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cups",
+    "project": "infrastructure",
+    "namespace": "cups",
+    "chart": "cups",
+    "repo": "https://r2dlan.github.io/helm-charts",
+    "path": "Applications/infrastructure/cups.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "configure-storage",
+    "project": "infrastructure",
+    "namespace": "kube-system",
+    "chart": "manifests/infrastructure/configure-storage",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/configure-storage.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "mariadb-operator-crds",
+    "project": "infrastructure",
+    "namespace": "mariadb-operator",
+    "chart": "mariadb-operator-crds",
+    "repo": "https://helm.mariadb.com/mariadb-operator",
+    "path": "Applications/infrastructure/mariadb-operator-crd.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nats",
+    "project": "infrastructure",
+    "namespace": "nats",
+    "chart": "nats",
+    "repo": "https://nats-io.github.io/k8s/helm/charts",
+    "path": "Applications/infrastructure/nats.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "o2c",
+    "project": "infrastructure",
+    "namespace": "openobserve-collector",
+    "chart": "openobserve-collector",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/infrastructure/o2c.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "ntfy",
+    "project": "infrastructure",
+    "namespace": "ntfy",
+    "chart": "ntfy",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/infrastructure/ntfy.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "tika",
+    "project": "infrastructure",
+    "namespace": "tika",
+    "chart": "tika",
+    "repo": "https://apache.jfrog.io/artifactory/tika",
+    "path": "Applications/infrastructure/tika.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "otel-collector-postgres",
+    "project": "infrastructure",
+    "namespace": "observability",
+    "chart": "values/observability/opentelemetry-operator/postgres",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/otel-collector-postgres.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "ironcalc",
+    "project": "infrastructure",
+    "namespace": "ironcalc",
+    "chart": "values/infrastructure/ironcalc/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/ironcalc.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "devdocs",
+    "project": "infrastructure",
+    "namespace": "devdocs",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/infrastructure/devdocs.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "whoami",
+    "project": "infrastructure",
+    "namespace": "devsecops",
+    "chart": "whoami",
+    "repo": "https://cowboysysop.github.io/charts",
+    "path": "Applications/infrastructure/whoami.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "o2-openobserve-import-dashboards",
+    "project": "infrastructure",
+    "namespace": "openobserve",
+    "chart": "values/observability/o2-openobserve/dashboard-import",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/o2-openobserve-import-dashboards.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nmap",
+    "project": "infrastructure",
+    "namespace": "devsecops",
+    "chart": "nmap",
+    "repo": "https://charts.securecodebox.io",
+    "path": "Applications/infrastructure/nmap.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nack",
+    "project": "infrastructure",
+    "namespace": "nats",
+    "chart": "nack",
+    "repo": "https://nats-io.github.io/k8s/helm/charts/",
+    "path": "Applications/infrastructure/nack.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "keda",
+    "project": "infrastructure",
+    "namespace": "keda",
+    "chart": "keda",
+    "repo": "https://kedacore.github.io/charts",
+    "path": "Applications/infrastructure/keda.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kubernetes-mcp",
+    "project": "infrastructure",
+    "namespace": "kubernetes-mcp",
+    "chart": "kubernetes-mcp",
+    "repo": "https://cowboysysop.github.io/charts/",
+    "path": "Applications/infrastructure/kubernetes-mcp.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "redis-pov",
+    "project": "infrastructure",
+    "namespace": "redis-pov",
+    "chart": "redis",
+    "repo": "https://kubelauncher.github.io/charts",
+    "path": "Applications/infrastructure/redis-pov.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kusanagi",
+    "project": "infrastructure",
+    "namespace": "kusanagi",
+    "chart": "kusanagi",
+    "repo": "ghcr.io/jzacharie/charts",
+    "path": "Applications/infrastructure/kusanagi.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "argo-rollouts",
+    "project": "infrastructure",
+    "namespace": "argo-rollouts",
+    "chart": "argo-rollouts",
+    "repo": "https://argoproj.github.io/argo-helm",
+    "path": "Applications/infrastructure/argo-rollouts.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "deploy-pilot",
+    "project": "infrastructure",
+    "namespace": "deploy-pilot",
+    "chart": "deploy-pilot",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/infrastructure/deploy-pilot.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "proxmox-upgrade",
+    "project": "infrastructure",
+    "namespace": "maintenance",
+    "chart": "manifests/infrastructure/proxmox-upgrade",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/proxmox-upgrade.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "otel-collector-argocd",
+    "project": "infrastructure",
+    "namespace": "argocd",
+    "chart": "values/observability/opentelemetry-operator/argocd",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/otel-collector-argocd.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "n8n-dev",
+    "project": "infrastructure",
+    "namespace": "n8n-dev",
+    "chart": "n8n",
+    "repo": "https://community-charts.github.io/helm-charts",
+    "path": "Applications/infrastructure/n8n-dev.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cloudflare-tunnel",
+    "project": "infrastructure",
+    "namespace": "cloudflare-tunnel",
+    "chart": "cloudflare-tunnel-ingress-controller",
+    "repo": "https://helm.strrl.dev",
+    "path": "Applications/infrastructure/cloudflare-tunnel.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kusanagi-dev",
+    "project": "infrastructure",
+    "namespace": "kusanagi-dev",
+    "chart": "kusanagi",
+    "repo": "ghcr.io/jzacharie/charts",
+    "path": "Applications/infrastructure/kusanagi-dev.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "fluent-bit-sbx",
+    "project": "infrastructure",
+    "namespace": "awx",
+    "chart": "fluent-bit",
+    "repo": "https://fluent.github.io/helm-charts",
+    "path": "Applications/infrastructure/fluent-bit-sbx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "mariadb-operator",
+    "project": "infrastructure",
+    "namespace": "mariadb-operator",
+    "chart": "mariadb-operator",
+    "repo": "https://helm.mariadb.com/mariadb-operator",
+    "path": "Applications/infrastructure/mariadb-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "dragonfly-s",
+    "project": "infrastructure",
+    "namespace": "dragonfly-s",
+    "chart": "dragonfly",
+    "repo": "ghcr.io/dragonflydb/dragonfly/helm",
+    "path": "Applications/infrastructure/dragonfly-s.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "keda-http-addon",
+    "project": "infrastructure",
+    "namespace": "keda",
+    "chart": "keda-add-ons-http",
+    "repo": "https://kedacore.github.io/charts",
+    "path": "Applications/infrastructure/keda-http-addon.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "otel-collector-proxmox",
+    "project": "infrastructure",
+    "namespace": "observability",
+    "chart": "values/observability/opentelemetry-operator/proxmox",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/otel-collector-proxmox.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "error-pages",
+    "project": "infrastructure",
+    "namespace": "error-pages",
+    "chart": "error-pages",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/infrastructure/error-pages.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "otel-collector-rabbitmq",
+    "project": "infrastructure",
+    "namespace": "observability",
+    "chart": "values/observability/opentelemetry-operator/rabbitmq",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/otel-collector-rabbitmq.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "dragonfly-n",
+    "project": "infrastructure",
+    "namespace": "dragonfly-n",
+    "chart": "dragonfly",
+    "repo": "ghcr.io/dragonflydb/dragonfly/helm",
+    "path": "Applications/infrastructure/dragonfly-n.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "chaoskube",
+    "project": "infrastructure",
+    "namespace": "chaoskube",
+    "chart": "chaoskube",
+    "repo": "https://linki.github.io/chaoskube/",
+    "path": "Applications/infrastructure/chaoskube.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "argo-events",
+    "project": "infrastructure",
+    "namespace": "argo-events",
+    "chart": "argo-events",
+    "repo": "https://argoproj.github.io/argo-helm",
+    "path": "Applications/infrastructure/argo-events.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "traefik",
+    "project": "infrastructure",
+    "namespace": "traefik",
+    "chart": "traefik",
+    "repo": "https://traefik.github.io/charts",
+    "path": "Applications/infrastructure/traefik.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "tailscale-operator",
+    "project": "infrastructure",
+    "namespace": "tailscale",
+    "chart": "tailscale-operator",
+    "repo": "https://pkgs.tailscale.com/helmcharts",
+    "path": "Applications/infrastructure/tailscale-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "knative-operator",
+    "project": "infrastructure",
+    "namespace": "knative-operator",
+    "chart": "knative-operator",
+    "repo": "https://knative.github.io/operator",
+    "path": "Applications/infrastructure/knative-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "fission",
+    "project": "infrastructure",
+    "namespace": "fission",
+    "chart": "fission-all",
+    "repo": "https://fission.github.io/fission-charts",
+    "path": "Applications/infrastructure/fission.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "keydb",
+    "project": "infrastructure",
+    "namespace": "keydb",
+    "chart": "keydb",
+    "repo": "https://enapter.github.io/charts",
+    "path": "Applications/infrastructure/keydb.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "dragonfly",
+    "project": "infrastructure",
+    "namespace": "dragonfly",
+    "chart": "dragonfly",
+    "repo": "ghcr.io/dragonflydb/dragonfly/helm",
+    "path": "Applications/infrastructure/dragonfly.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cloudnative-pg",
+    "project": "infrastructure",
+    "namespace": "cnpg-system",
+    "chart": "cloudnative-pg",
+    "repo": "https://cloudnative-pg.io/charts/",
+    "path": "Applications/infrastructure/cloudnative-pg.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "demo-rum",
+    "project": "infrastructure",
+    "namespace": "demo-rum",
+    "chart": "demo-rum",
+    "repo": "https://jzacharie.github.io/demo-RUM",
+    "path": "Applications/infrastructure/demo-rum.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "homepage",
+    "project": "infrastructure",
+    "namespace": "homepage",
+    "chart": "homepage",
+    "repo": "https://jameswynn.github.io/helm-charts",
+    "path": "Applications/infrastructure/homepage.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "otel-collector-gpu",
+    "project": "infrastructure",
+    "namespace": "gpu-operator",
+    "chart": "values/observability/opentelemetry-operator/gpu",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/otel-collector-gpu.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "gatus",
+    "project": "observability",
+    "namespace": "gatus",
+    "chart": "gatus",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/observability/gatus.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "influxdb2",
+    "project": "observability",
+    "namespace": "influxdb2",
+    "chart": "influxdb2",
+    "repo": "https://helm.influxdata.com",
+    "path": "Applications/observability/influxdb2.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "opentelemetry-operator",
+    "project": "observability",
+    "namespace": "opentelemetry-operator",
+    "chart": "opentelemetry-operator",
+    "repo": "https://open-telemetry.github.io/opentelemetry-helm-charts",
+    "path": "Applications/observability/opentelemetry-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "prometheus-blackbox-exporter",
+    "project": "observability",
+    "namespace": "prometheus-blackbox-exporter",
+    "chart": "prometheus-blackbox-exporter",
+    "repo": "https://prometheus-community.github.io/helm-charts",
+    "path": "Applications/observability/prometheus-blackbox-exporter.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "argocd-mobile-dashboard",
+    "project": "observability",
+    "namespace": "observability",
+    "chart": "argocd-mobile-dashboard",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/observability/argocd-mobile-dashboard.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "watchyourlan",
+    "project": "observability",
+    "namespace": "watchyourlan",
+    "chart": "watchyourlan",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/observability/watchyourlan.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "o2-openobserve",
+    "project": "observability",
+    "namespace": "openobserve",
+    "chart": "openobserve",
+    "repo": "https://charts.openobserve.ai",
+    "path": "Applications/observability/o2-openobserve.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "grafana",
+    "project": "observability",
+    "namespace": "-",
+    "chart": "values/observability/grafana/manifests/",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/observability/grafana.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "ragecheck",
+    "project": "observability",
+    "namespace": "observability",
+    "chart": "charts/ragecheck",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/observability/ragecheck.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "dcgm-exporter",
+    "project": "observability",
+    "namespace": "dcgm-exporter",
+    "chart": "dcgm-exporter",
+    "repo": "https://nvidia.github.io/dcgm-exporter/helm-charts",
+    "path": "Applications/observability/dcgm-exporter.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kube-prometheus-stack",
+    "project": "observability",
+    "namespace": "kube-prometheus-stack",
+    "chart": "kube-prometheus-stack",
+    "repo": "https://prometheus-community.github.io/helm-charts",
+    "path": "Applications/observability/kube-prometheus-stack.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "gaps",
+    "project": "observability",
+    "namespace": "gaps",
+    "chart": "gaps",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/observability/gaps.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "observability-shared-secrets",
+    "project": "infrastructure",
+    "namespace": "observability",
+    "chart": "values/observability/shared-secrets",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/observability/shared-secrets.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "inova-monitoring",
+    "project": "observability",
+    "namespace": "observability",
+    "chart": "charts/inova-monitoring",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/observability/inova-monitoring.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kyverno",
+    "project": "security",
+    "namespace": "kyverno",
+    "chart": "kyverno",
+    "repo": "https://kyverno.github.io/kyverno",
+    "path": "Applications/security/kyverno.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "vault",
+    "project": "security",
+    "namespace": "vault",
+    "chart": "vault",
+    "repo": "https://helm.releases.hashicorp.com",
+    "path": "Applications/security/vault.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "sealed-secrets",
+    "project": "security",
+    "namespace": "devsecops",
+    "chart": "sealed-secrets",
+    "repo": "https://bitnami.github.io/sealed-secrets",
+    "path": "Applications/security/sealed-secrets.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kyverno-cluster-policy",
+    "project": "security",
+    "namespace": "-",
+    "chart": "values/security/kyverno-cluster-policy/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/security/kyverno-cluster-policy.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "kryptos",
+    "project": "security",
+    "namespace": "security",
+    "chart": "charts/kryptos",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/security/kryptos.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "fence",
+    "project": "security",
+    "namespace": "security",
+    "chart": ".",
+    "repo": "https://github.com/Use-Tusk/fence.git",
+    "path": "Applications/security/fence.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "external-secrets",
+    "project": "security",
+    "namespace": "kube-system",
+    "chart": "external-secrets",
+    "repo": "https://charts.external-secrets.io",
+    "path": "Applications/security/external-secrets.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "trivy-operator",
+    "project": "security",
+    "namespace": "trivy-system",
+    "chart": "trivy-operator",
+    "repo": "https://aquasecurity.github.io/helm-charts/",
+    "path": "Applications/security/trivy-operator.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "cert-manager",
+    "project": "security",
+    "namespace": "cert-manager",
+    "chart": "cert-manager",
+    "repo": "https://charts.jetstack.io",
+    "path": "Applications/security/cert-manager.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "stockfish",
+    "project": "sandbox",
+    "namespace": "stockfish",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/sandbox/stockfish.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "meteo",
+    "project": "home",
+    "namespace": "meteo",
+    "chart": "values/home/meteo/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/home/meteo.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "emqx",
+    "project": "home",
+    "namespace": "emqx",
+    "chart": "emqx",
+    "repo": "https://repos.emqx.io/charts",
+    "path": "Applications/home/emqx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "plex-organizer",
+    "project": "media",
+    "namespace": "media",
+    "chart": "values/media/plex-organizer/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/media/plex-organizer.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "restreamer",
+    "project": "media",
+    "namespace": "sandbox",
+    "chart": "restreamer",
+    "repo": "https://utkuozdemir.org/helm-charts",
+    "path": "Applications/media/restreamer.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "audiobookshelf",
+    "project": "media",
+    "namespace": "audiobookshelf",
+    "chart": "audiobookshelf",
+    "repo": "https://charts.christianhuth.de",
+    "path": "Applications/media/audiobookshelf.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "transmission-vpn",
+    "project": "media",
+    "namespace": "transmission-vpn",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/media/transmission-vpn.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "handbrake",
+    "project": "media",
+    "namespace": "handbrake",
+    "chart": "handbrake",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/media/handbrake.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "jellyfin-prd",
+    "project": "media",
+    "namespace": "jellyfin-prd",
+    "chart": "jellyfin",
+    "repo": "ghcr.io/m0nsterrr/helm-charts",
+    "path": "Applications/media/jellyfin-prd.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pigallery2",
+    "project": "media",
+    "namespace": "pigallery2",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/media/pigallery2.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "eros",
+    "project": "media",
+    "namespace": "eros",
+    "chart": "photoprism",
+    "repo": "https://andrenarchy.github.io/helm-charts/",
+    "path": "Applications/media/eros.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "qbittorrent",
+    "project": "media",
+    "namespace": "qbittorrent",
+    "chart": "qbittorrent",
+    "repo": "https://charts.gabe565.com",
+    "path": "Applications/media/qbittorrent.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "sonarr",
+    "project": "media",
+    "namespace": "sonarr",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/media/sonarr.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "calibre",
+    "project": "media",
+    "namespace": "calibre",
+    "chart": "calibre",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/media/calibre.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "photoprism",
+    "project": "media",
+    "namespace": "photoprism",
+    "chart": "photoprism",
+    "repo": "https://andrenarchy.github.io/helm-charts/",
+    "path": "Applications/media/photoprism.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "youtubedl",
+    "project": "media",
+    "namespace": "youtubedl",
+    "chart": "youtubedl-material",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/media/youtubedl.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "deemix",
+    "project": "media",
+    "namespace": "deemix",
+    "chart": "deemix",
+    "repo": "https://geek-cookbook.github.io/charts",
+    "path": "Applications/media/deemix.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "jellyfin-pgsql",
+    "project": "media",
+    "namespace": "jellyfin-pgsql",
+    "chart": "jellyfin",
+    "repo": "ghcr.io/m0nsterrr/helm-charts",
+    "path": "Applications/media/jellyfin-pgsql.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "immich",
+    "project": "media",
+    "namespace": "immich",
+    "chart": "immich",
+    "repo": "ghcr.io/immich-app/immich-charts",
+    "path": "Applications/media/immich.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "open-webui",
+    "project": "ai",
+    "namespace": "open-webui",
+    "chart": "open-webui",
+    "repo": "https://helm.openwebui.com",
+    "path": "Applications/ai/open-webui.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "qdrant",
+    "project": "ai",
+    "namespace": "qdrant",
+    "chart": "qdrant",
+    "repo": "https://qdrant.github.io/qdrant-helm",
+    "path": "Applications/ai/qdrant.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "anything-llm",
+    "project": "ai",
+    "namespace": "anything-llm",
+    "chart": "anything-llm",
+    "repo": "https://la-cc.github.io/anything-llm-helm-chart",
+    "path": "Applications/ai/anything-llm.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "memgraph",
+    "project": "ai",
+    "namespace": "memgraph",
+    "chart": "values/ai/memgraph/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/memgraph.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "gpu-hot",
+    "project": "ai",
+    "namespace": "gpu-hot",
+    "chart": "values/ai/gpu-hot/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/gpu-hot.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pylos",
+    "project": "ai",
+    "namespace": "pylos",
+    "chart": "values/ai/pylos/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/pylos.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "graphon",
+    "project": "ai",
+    "namespace": "graphon",
+    "chart": "charts/graphon",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/graphon.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pylos-dev",
+    "project": "ai",
+    "namespace": "pylos-dev",
+    "chart": "values/ai/pylos-dev/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/pylos-dev.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "openmed",
+    "project": "ai",
+    "namespace": "openmed-prod",
+    "chart": "charts/openmed",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/openmed.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "llama-cpp",
+    "project": "ai",
+    "namespace": "llama-cpp",
+    "chart": "charts/llama-cpp",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/llama-cpp.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "open-notebook",
+    "project": "ai",
+    "namespace": "open-notebook",
+    "chart": "charts/open-notebook",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/open-notebook.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "ollama",
+    "project": "ai",
+    "namespace": "ollama",
+    "chart": "ollama",
+    "repo": "https://otwld.github.io/ollama-helm/",
+    "path": "Applications/ai/ollama.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "lobe-chat",
+    "project": "ai",
+    "namespace": "lobe-chat",
+    "chart": "lobe-chat",
+    "repo": "https://darox.github.io/helm-charts/",
+    "path": "Applications/ai/lobe-chat.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "lemonade",
+    "project": "ai",
+    "namespace": "lemonade",
+    "chart": "values/ai/lemonade/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/lemonade.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "chromadb",
+    "project": "ai",
+    "namespace": "chromadb",
+    "chart": "chromadb",
+    "repo": "https://infracloudio.github.io/charts",
+    "path": "Applications/ai/chromadb.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "whisperx",
+    "project": "ai",
+    "namespace": "whisperx",
+    "chart": "whisperx",
+    "repo": "https://raw.githubusercontent.com/JZacharie/helmscharts/gh-pages",
+    "path": "Applications/ai/whisperx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "opencode-ai",
+    "project": "ai",
+    "namespace": "opencode",
+    "chart": "values/ai/opencode/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/opencode-ai.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "litellm",
+    "project": "ai",
+    "namespace": "litellm",
+    "chart": "charts/litellm",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/litellm.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "bifrost",
+    "project": "ai",
+    "namespace": "bifrost",
+    "chart": "bifrost",
+    "repo": "https://maximhq.github.io/bifrost/helm-charts",
+    "path": "Applications/ai/bifrost.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "libre-chat",
+    "project": "ai",
+    "namespace": "librechat",
+    "chart": "values/ai/libre-chat/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/libre-chat.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "k8sgpt",
+    "project": "ai",
+    "namespace": "k8sgpt",
+    "chart": "k8sgpt-operator",
+    "repo": "https://charts.k8sgpt.ai",
+    "path": "Applications/ai/k8sgpt.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "antigravity",
+    "project": "ai",
+    "namespace": "antigravity",
+    "chart": "charts/antigravity",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/antigravity.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "docling",
+    "project": "ai",
+    "namespace": "docling",
+    "chart": "values/ai/docling/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/docling.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pg-sbx-vs",
+    "project": "storage",
+    "namespace": "-",
+    "chart": "values/storage/pg-sbx-vs/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/storage/pg-sbx-vs.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pg-prd",
+    "project": "storage",
+    "namespace": "-",
+    "chart": "values/storage/pg-prd/manifests/",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/storage/pg-prd.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "proxmox-csi",
+    "project": "storage",
+    "namespace": "csi-proxmox",
+    "chart": "proxmox-csi-plugin",
+    "repo": "ghcr.io/sergelogvinov/charts",
+    "path": "Applications/storage/proxmox-csi.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "rustfs",
+    "project": "storage",
+    "namespace": "storage",
+    "chart": "rustfs",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/storage/rustfs.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nfs-client",
+    "project": "storage",
+    "namespace": "nfs-client",
+    "chart": "nfs-client-provisioner",
+    "repo": "https://charts.kubesphere.io/main",
+    "path": "Applications/storage/nfs-client.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "pg-sbx",
+    "project": "storage",
+    "namespace": "-",
+    "chart": "values/storage/pg-sbx/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/storage/pg-sbx.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "nfs-client-jonas",
+    "project": "storage",
+    "namespace": "nfs-client-jonas",
+    "chart": "nfs-client-provisioner",
+    "repo": "https://charts.kubesphere.io/main",
+    "path": "Applications/storage/nfs-client-jonas.yaml",
+    "status": "Active",
+    "badge_class": "badge-active"
+  },
+  {
+    "name": "facefusion",
+    "project": "ai",
+    "namespace": "facefusion",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/facefusion.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "steampipe-powerpipe",
+    "project": "observability",
+    "namespace": "turbot",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/steampipe-powerpipe.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "pgadmin4",
+    "project": "dev-tools",
+    "namespace": "sandbox",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/pgadmin4.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "sorry-cypress-sbx",
+    "project": "default",
+    "namespace": "sorry-cypress",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/sorry-cypress-sbx.yaml",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "proton-bridge",
+    "project": "productivity",
+    "namespace": "proton-bridge",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/proton-bridge.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "blinko",
+    "project": "infrastructure",
+    "namespace": "blinko",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/blinko.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "tei",
+    "project": "ai",
+    "namespace": "ai",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/tei.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "tandoor",
+    "project": "productivity",
+    "namespace": "tandoor",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/tandoor.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "litellm-pgvector",
+    "project": "ai",
+    "namespace": "litellm-pgvector",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/litellm-pgvector.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "prerender",
+    "project": "productivity",
+    "namespace": "sandbox",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/prerender.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "openclaw",
+    "project": "ai",
+    "namespace": "openclaw",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/openclaw.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "language-tool",
+    "project": "productivity",
+    "namespace": "language-tool",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/language-tool.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "pd3f",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/pd3f.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "velld",
+    "project": "infrastructure",
+    "namespace": "velld",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/velld.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "simple-irc-server",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/simple-irc-server.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "mnemosyne",
+    "project": "ai",
+    "namespace": "mnemosyne",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/mnemosyne.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "traccar",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/traccar.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "home-assistant",
+    "project": "home",
+    "namespace": "domotique",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/home-assistant.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "nv-manager",
+    "project": "ai",
+    "namespace": "nv-manager",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/nv-manager.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "openvas",
+    "project": "security",
+    "namespace": "security",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/openvas.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "dnsweaver",
+    "project": "infrastructure",
+    "namespace": "dnsweaver",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/dnsweaver.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "scriberr",
+    "project": "infrastructure",
+    "namespace": "scriberr",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/scriberr.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "stirling-pdf",
+    "project": "ai",
+    "namespace": "stirling-pdf",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/stirling-pdf.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "shadowbroker",
+    "project": "security",
+    "namespace": "shadowbroker",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/shadowbroker.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "chartdb",
+    "project": "infrastructure",
+    "namespace": "chartdb",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/chartdb.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "keda-waiting-page",
+    "project": "infrastructure",
+    "namespace": "keda",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/keda-waiting-page.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "transmission",
+    "project": "media",
+    "namespace": "media",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/transmission.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "garage",
+    "project": "storage",
+    "namespace": "storage",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/garage.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "redis-s",
+    "project": "infrastructure",
+    "namespace": "redis-s",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/redis-s.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "keryx",
+    "project": "ai",
+    "namespace": "keryx",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/keryx.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "vllm",
+    "project": "ai",
+    "namespace": "vllm",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/vllm.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "linkwarden",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/linkwarden.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "qwen3-tts",
+    "project": "ai",
+    "namespace": "qwen-tts",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/qwen3-tts.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "netbox",
+    "project": "infrastructure",
+    "namespace": "netbox",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/netbox.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "vault-sbx",
+    "project": "security",
+    "namespace": "vault-sbx",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/vault-sbx.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "radarr",
+    "project": "media",
+    "namespace": "radarr",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/radarr.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "chaos-mesh",
+    "project": "infrastructure",
+    "namespace": "chaos-mesh",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/chaos-mesh.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "f5-tts",
+    "project": "ai",
+    "namespace": "f5-tts",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/f5-tts.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "urocissa",
+    "project": "media",
+    "namespace": "urocissa",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/urocissa.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "rsshub",
+    "project": "infrastructure",
+    "namespace": "rsshub",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/rsshub.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "rust-s3-asr",
+    "project": "ai",
+    "namespace": "ai",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/rust-s3-asr.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "metabase",
+    "project": "infrastructure",
+    "namespace": "metabase",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/metabase.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "mimir-distributed",
+    "project": "observability",
+    "namespace": "mimir-distributed",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/mimir-distributed.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "hermes-agent",
+    "project": "ai",
+    "namespace": "hermes",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/hermes-agent.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "google-mcp",
+    "project": "infrastructure",
+    "namespace": "google-mcp",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/google-mcp.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "sysctl-inotify-patcher",
+    "project": "infrastructure",
+    "namespace": "kube-system",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/sysctl-inotify-patcher.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "nextexplorer",
+    "project": "productivity",
+    "namespace": "nextexplorer",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/nextexplorer.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "thelounge",
+    "project": "productivity",
+    "namespace": "productivity",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/thelounge.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "chatterbox",
+    "project": "infrastructure",
+    "namespace": "chatterbox",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/chatterbox.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "guacamole sbx",
+    "project": "infrastructure",
+    "namespace": "guacamole-sbx",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/guacamole sbx.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "maintenance",
+    "project": "infrastructure",
+    "namespace": "maintenance",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/maintenance.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "budibase",
+    "project": "default",
+    "namespace": "budibase",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/budibase.yaml",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "plausible-analytics",
+    "project": "productivity",
+    "namespace": "plausible-analytics",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/plausible-analytics.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "fundy",
+    "project": "default",
+    "namespace": "fundy-joe",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/fundy.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "argocd-notifications",
+    "project": "infrastructure",
+    "namespace": "argocd-notifications",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/argocd-notifications.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "loadrunner",
+    "project": "dev-tools",
+    "namespace": "loadrunner",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/loadrunner.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "appflowy-sbxd",
+    "project": "infrastructure",
+    "namespace": "appflowy-sbx",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/appflowy-sbx.yaml.disabled",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "cert-manager-webhook-gandi",
+    "project": "security",
+    "namespace": "cert-manager",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/cert-manager-webhook-gandi.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "qwen-image-layered",
+    "project": "ai",
+    "namespace": "qwen-image-layered",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/qwen-image-layered.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "antigravity-remote-docker",
+    "project": "ai",
+    "namespace": "antigravity-remote-docker",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/antigravity-remote-docker.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "descheduler",
+    "project": "infrastructure",
+    "namespace": "kube-system",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/descheduler.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "redis",
+    "project": "infrastructure",
+    "namespace": "redis",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/redis.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "redis-n",
+    "project": "infrastructure",
+    "namespace": "redis-n",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/redis-n.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "paperless-gpt",
+    "project": "productivity",
+    "namespace": "paperless-gpt",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/paperless-gpt.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "sim",
+    "project": "infrastructure",
+    "namespace": "sim",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/sim.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "nav",
+    "project": "disabled",
+    "namespace": "-",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/nav.yaml",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "keycloak",
+    "project": "security",
+    "namespace": "keycloak",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/keycloak.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "karakeep",
+    "project": "infrastructure",
+    "namespace": "karakeep",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/karakeep.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "openai-whisper-asr-webservice",
+    "project": "ai",
+    "namespace": "openai-whisper-asr-webservice",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/openai-whisper-asr-webservice.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  },
+  {
+    "name": "gel3-dev",
+    "project": "default",
+    "namespace": "inovameswerum-scale-24271548-non-prod",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/gel3-dev.yaml.disable",
+    "status": "Disabled",
+    "badge_class": "badge-disabled"
+  }
+];
+
+        function renderApps(apps) {
+            const grid = document.getElementById("appsGrid");
+            grid.innerHTML = "";
+
+            if (apps.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #9ca3af; padding: 3rem;">Aucune application ne correspond à votre recherche.</div>`;
+                return;
+            }
+
+            apps.forEach(app => {
+                const card = document.createElement("div");
+                card.className = "app-card";
+                card.innerHTML = `
+                    <div class="app-header">
+                        <div class="app-title">${app.name}</div>
+                        <span class="badge ${app.badge_class}">${app.status}</span>
+                    </div>
+                    <div class="app-meta">
+                        <div class="meta-row">
+                            <span>Projet :</span>
+                            <span class="val">${app.project}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span>Namespace :</span>
+                            <span class="val">${app.namespace}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span>Source / Chart :</span>
+                            <span class="val" title="${app.chart}">${app.chart.length > 25 ? app.chart.substring(0, 22) + '...' : app.chart}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterApps() {
+            const search = document.getElementById("searchInput").value.toLowerCase();
+            const project = document.getElementById("projectFilter").value;
+            const status = document.getElementById("statusFilter").value;
+
+            const filtered = rawApps.filter(app => {
+                const matchSearch = app.name.toLowerCase().includes(search) || 
+                                    app.project.toLowerCase().includes(search) || 
+                                    app.namespace.toLowerCase().includes(search) ||
+                                    app.chart.toLowerCase().includes(search);
+                const matchProject = (project === "ALL" || app.project === project);
+                const matchStatus = (status === "ALL" || app.status === status);
+
+                return matchSearch && matchProject && matchStatus;
+            });
+
+            renderApps(filtered);
+        }
+
+        // Initial render
+        renderApps(rawApps);
+    </script>
+</body>
+</html>
