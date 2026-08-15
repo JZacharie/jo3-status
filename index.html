@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jo3 GitOps — Application Status Dashboard</title>
+    <title>jo3 GitOps — Vue 360° Status & Securité</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -19,6 +19,8 @@
             --text-muted: #9ca3af;
             --success: #10b981;
             --success-glow: rgba(16, 185, 129, 0.2);
+            --warning: #f59e0b;
+            --danger: #ef4444;
             --disabled: #6b7280;
         }
 
@@ -78,7 +80,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -254,6 +256,12 @@
             border: 1px solid rgba(107, 114, 128, 0.3);
         }
 
+        .badge-update {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
         .app-meta {
             display: flex;
             flex-direction: column;
@@ -273,6 +281,22 @@
             color: #d1d5db;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.82rem;
+        }
+
+        .probe-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 0.65rem;
+            margin-bottom: 1rem;
+            font-size: 0.82rem;
+        }
+
+        .probe-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
         }
 
         .ingress-btn {
@@ -326,10 +350,10 @@
         <header>
             <div>
                 <div class="logo-title">
-                    <span style="font-size: 2.2rem;">🌌</span>
-                    <h1>jo3 GitOps Applications Dashboard</h1>
+                    <span style="font-size: 2.2rem;">🛡️</span>
+                    <h1>Kusanagi Vue 360° — Status & Securité Applications jo3</h1>
                 </div>
-                <p class="subtitle">Tableau de bord interactif des applications Kubernetes avec accès Ingress direct</p>
+                <p class="subtitle">Vue 360° interactive des applications jo3 (Gitleaks, Architecture, Failles Trivy, Sonde de Mise à Jour d'Image)</p>
             </div>
         </header>
 
@@ -342,20 +366,20 @@
                 <div class="label">Actives (ArgoCD)</div>
                 <div class="value" style="color: #10b981;">169</div>
             </div>
-            <div class="stat-card" onclick="quickFilter('Ingress')">
-                <div class="label">Routes Ingress Configurées</div>
-                <div class="value" style="color: #3b82f6;">234</div>
+            <div class="stat-card" onclick="quickFilter('Updates')">
+                <div class="label">Sonde Mises à Jour</div>
+                <div class="value" style="color: #f59e0b;">10 disp.</div>
             </div>
-            <div class="stat-card" onclick="quickFilter('Disabled')">
-                <div class="label">Désactivées</div>
-                <div class="value" style="color: #6b7280;">70</div>
+            <div class="stat-card" onclick="quickFilter('Gitleaks')">
+                <div class="label">Alerte Gitleaks / Passwords</div>
+                <div class="value" style="color: #ef4444;">16209</div>
             </div>
         </div>
 
         <div class="controls">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Rechercher une application, namespace, ingress, chart..." oninput="filterApps()">
+                <input type="text" id="searchInput" placeholder="Rechercher une application, namespace, version, gitleaks..." oninput="filterApps()">
             </div>
             <select id="projectFilter" class="filter-select" onchange="filterApps()">
                 <option value="ALL">Tous les projets</option>
@@ -365,6 +389,7 @@
                 <option value="ALL">Tous les statuts</option>
                 <option value="Active">Actives</option>
                 <option value="Disabled">Désactivées</option>
+                <option value="Update">Mise à jour disponible</option>
             </select>
         </div>
 
@@ -373,7 +398,7 @@
         </div>
 
         <footer>
-            Généré automatiquement par la CI jo3 GitOps Dashboard • Mis à jour régulièrement
+            Kusanagi Security & Status Hub • Généré automatiquement par la CI jo3 GitOps
         </footer>
     </div>
 
@@ -389,7 +414,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "littlelink-server",
@@ -401,7 +435,16 @@
     "ingress_url": "https://joseph.p.zacharie.org",
     "icon_url": "https://yt3.ggpht.com/ytc/AIdro_k2vOtQ5Ow57eA3Ab2irRNfVsD8g9x8yJtkPFpaZ05KDRB4=s600-c-k-c0x00ffffff-no-rj-rp-mo",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "miniflux",
@@ -411,9 +454,18 @@
     "repo": "https://charts.gabe565.com",
     "path": "Applications/productivity/miniflux.yaml",
     "ingress_url": "https://miniflux.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/miniflux.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 39,
+    "image": "ghcr.io/miniflux/miniflux",
+    "tag": "2.2.13",
+    "probe": {
+      "current": "2.2.13",
+      "latest": "2.2.18",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "psitransfer",
@@ -425,7 +477,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nocodb",
@@ -435,9 +496,18 @@
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/nocodb.yaml",
     "ingress_url": "https://psitransfer.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/nocodb.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "shannon",
@@ -449,7 +519,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sockpuppetbrowser",
@@ -461,7 +540,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "readur",
@@ -473,7 +561,16 @@
     "ingress_url": "https://readur.p.zacharie.org",
     "icon_url": "https://www.sogeic.com/wp-content/uploads/2017/07/Logo-GED.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pandoc",
@@ -485,7 +582,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "ihatemoney",
@@ -495,9 +601,18 @@
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/ihatemoney.yaml",
     "ingress_url": "https://psitransfer.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/ihatemoney.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "karma",
@@ -509,7 +624,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "convertx",
@@ -519,9 +643,18 @@
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/productivity/convertx.yaml",
     "ingress_url": "https://convertx.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/convertx.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "actualbudget",
@@ -531,9 +664,18 @@
     "repo": "https://community-charts.github.io/helm-charts",
     "path": "Applications/productivity/actualbudget.yaml",
     "ingress_url": "https://actualbudget.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/actualbudget.png",
+    "icon_url": "https://store-images.s-microsoft.com/image/apps.15442.14557717393621578.843a157c-d399-4f0a-a339-9b5b3ccf2259.7d609fe4-b774-467c-bd62-9de6e6645655?h=210",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "outline-v2",
@@ -545,7 +687,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "maker-management-platform",
@@ -557,7 +708,16 @@
     "ingress_url": "https://maker-management-platform.p.zacharie.org",
     "icon_url": "https://maker-management-platform.p.zacharie.org/vite.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "redirection",
@@ -569,7 +729,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "docuseal",
@@ -579,9 +748,18 @@
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/docuseal.yaml",
     "ingress_url": "https://docuseal.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/docuseal.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "docuseal/docuseal",
+    "tag": "1.8.6",
+    "probe": {
+      "current": "1.8.6",
+      "latest": "1.8.6",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "paperless",
@@ -593,7 +771,16 @@
     "ingress_url": "https://paperless.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/paperless-ngx.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 43,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "freshrss",
@@ -603,9 +790,18 @@
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/productivity/freshrss.yaml",
     "ingress_url": "https://freshrss.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/freshrss.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "version-1.27.1",
+    "probe": {
+      "current": "version-1.27.1",
+      "latest": "version-1.27.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "docspell",
@@ -615,9 +811,18 @@
     "repo": "https://docspell.github.io/docker",
     "path": "Applications/productivity/docspell.yaml",
     "ingress_url": "https://docspell.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/docspell.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 39,
+    "image": "tag",
+    "tag": "null",
+    "probe": {
+      "current": "null",
+      "latest": "null",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "itop",
@@ -629,7 +834,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "readeck",
@@ -639,9 +853,18 @@
     "repo": "https://zekker6.github.io/helm-charts",
     "path": "Applications/productivity/readeck.yaml",
     "ingress_url": "https://psitransfer.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/readeck.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "planka",
@@ -651,9 +874,18 @@
     "repo": "https://bjw-s-labs.github.io/helm-charts",
     "path": "Applications/productivity/planka.yaml",
     "ingress_url": "https://planka.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/planka.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 35,
+    "image": "repository",
+    "tag": "1.26.3",
+    "probe": {
+      "current": "1.26.3",
+      "latest": "2.0.0",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "excalidraw",
@@ -665,7 +897,16 @@
     "ingress_url": "https://excalidraw.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/excalidraw.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "permission-manager",
@@ -677,7 +918,16 @@
     "ingress_url": "https://permission-manager.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sighupio/permission-manager/master/web/src/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "awx",
@@ -689,7 +939,16 @@
     "ingress_url": "https://fluent-bit-sbx.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/awx.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 14,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kargo",
@@ -701,7 +960,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://kargo.io/img/kargo-icon.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "filebrowser-quantum",
@@ -713,7 +981,16 @@
     "ingress_url": "https://filebrowser.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/filebrowser.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 12,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "wh2pg",
@@ -725,7 +1002,16 @@
     "ingress_url": "https://wh2pg.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "k6-operator",
@@ -737,7 +1023,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/k6.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "persistence-defectdojo",
@@ -749,7 +1044,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/defectdojo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "renovate",
@@ -761,7 +1065,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/renovate.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "INIT_CONTAINER_IMAGE",
+    "tag": "41.73.0",
+    "probe": {
+      "current": "41.73.0",
+      "latest": "41.173.1",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "opencode-dev-tools",
@@ -773,7 +1086,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "elara",
@@ -785,7 +1107,16 @@
     "ingress_url": "https://elara.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "termix",
@@ -797,7 +1128,16 @@
     "ingress_url": "https://termix.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "it-tools",
@@ -809,7 +1149,16 @@
     "ingress_url": "https://ittools.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "ghcr.io/corentinth/it-tools",
+    "tag": "nightly",
+    "probe": {
+      "current": "nightly",
+      "latest": "nightly",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cloudbeaver",
@@ -821,7 +1170,16 @@
     "ingress_url": "https://cloudbeaver.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.3.5",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "zap-advanced",
@@ -833,7 +1191,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "swaggerui",
@@ -845,7 +1212,16 @@
     "ingress_url": "https://swagger.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "gotenberg",
@@ -857,7 +1233,16 @@
     "ingress_url": "https://gotenberg.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "8.25.1",
+    "probe": {
+      "current": "8.25.1",
+      "latest": "8.25.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "k6-demo",
@@ -869,7 +1254,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "awx-operator",
@@ -881,7 +1275,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cyberchef",
@@ -893,7 +1296,16 @@
     "ingress_url": "https://cyberchef.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kube-ops-view",
@@ -905,7 +1317,16 @@
     "ingress_url": "https://kube-ops-view.p.zacharie.org",
     "icon_url": "https://artifacthub.io/image/3389eb17-761b-430a-a5ee-6ba94c2bf0f4@3x",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cilium",
@@ -917,7 +1338,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/cilium.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "node-red",
@@ -929,7 +1359,16 @@
     "ingress_url": "https://node-red.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "4.1.7-22",
+    "probe": {
+      "current": "4.1.7-22",
+      "latest": "4.1.7-22",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "rabbitmq",
@@ -941,7 +1380,16 @@
     "ingress_url": "https://rabbitmq.p.zacharie.org",
     "icon_url": "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/rabbitmq-icon-i64x9hzvue8q5nrr52ei3.png/rabbitmq-icon-fd1792c5uscn3uef5ew1u.png?_a=DATAg1AAZAA0",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "rabbitmq",
+    "tag": "4.2.2-management",
+    "probe": {
+      "current": "4.2.2-management",
+      "latest": "4.2.2-management",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "n8n",
@@ -953,7 +1401,16 @@
     "ingress_url": "https://n8n.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/n8n.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 91,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "argo-workflows",
@@ -965,7 +1422,16 @@
     "ingress_url": "https://argoworkflows.zacharie.org",
     "icon_url": "https://argoproj.github.io/static/3748e3a7881fe3b037f2401b65943dc0/93d75/rollouts.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "fluent-bit",
@@ -977,7 +1443,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "github-mcp",
@@ -989,7 +1464,16 @@
     "ingress_url": "https://github-mcp.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "browserless-chrome",
@@ -1001,7 +1485,16 @@
     "ingress_url": "https://browserless.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "browserless/chrome",
+    "tag": "1.61-chrome-stable",
+    "probe": {
+      "current": "1.61-chrome-stable",
+      "latest": "1.61-chrome-stable",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cups",
@@ -1013,7 +1506,16 @@
     "ingress_url": "https://cups.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "configure-storage",
@@ -1025,7 +1527,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "mariadb-operator-crds",
@@ -1037,7 +1548,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nats",
@@ -1049,7 +1569,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "o2c",
@@ -1061,7 +1590,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "ntfy",
@@ -1073,7 +1611,16 @@
     "ingress_url": "https://ntfy.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "v2.13",
+    "probe": {
+      "current": "v2.13",
+      "latest": "v2.13",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "tika",
@@ -1085,7 +1632,16 @@
     "ingress_url": "https://tika.p.zacharie.org",
     "icon_url": "https://hub.turbo.net/repo/apache/tika/icon",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "pullPolicy",
+    "tag": "3.2.3.0-full",
+    "probe": {
+      "current": "3.2.3.0-full",
+      "latest": "3.2.3.0-full",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "otel-collector-postgres",
@@ -1097,7 +1653,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "ironcalc",
@@ -1109,7 +1674,16 @@
     "ingress_url": "https://ironcalc.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "devdocs",
@@ -1121,7 +1695,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "whoami",
@@ -1133,7 +1716,16 @@
     "ingress_url": "https://whoami.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "o2-openobserve-import-dashboards",
@@ -1145,7 +1737,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nmap",
@@ -1157,7 +1758,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nack",
@@ -1169,7 +1779,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keda",
@@ -1181,7 +1800,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kubernetes-mcp",
@@ -1193,7 +1821,16 @@
     "ingress_url": "https://kubernetes-mcp.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "manusa/kubernetes_mcp_server",
+    "tag": "v0.0.47",
+    "probe": {
+      "current": "v0.0.47",
+      "latest": "v0.0.47",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "redis-pov",
@@ -1205,7 +1842,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kusanagi",
@@ -1217,7 +1863,16 @@
     "ingress_url": "https://kusanagi.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 143,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "argo-rollouts",
@@ -1229,7 +1884,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "deploy-pilot",
@@ -1241,7 +1905,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "proxmox-upgrade",
@@ -1253,7 +1926,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "otel-collector-argocd",
@@ -1265,7 +1947,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "n8n-dev",
@@ -1277,7 +1968,16 @@
     "ingress_url": "https://n8n-dev.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/n8n.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 85,
+    "image": "jzacharie/n8n-mcp",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cloudflare-tunnel",
@@ -1289,7 +1989,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 85,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kusanagi-dev",
@@ -1301,7 +2010,16 @@
     "ingress_url": "https://kusanagi.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/kusanagi.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 111,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "fluent-bit-sbx",
@@ -1313,7 +2031,16 @@
     "ingress_url": "https://fluent-bit-sbx.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "mariadb-operator",
@@ -1325,7 +2052,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "dragonfly-s",
@@ -1337,7 +2073,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "v1.37.2",
+    "probe": {
+      "current": "v1.37.2",
+      "latest": "v1.37.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keda-http-addon",
@@ -1349,7 +2094,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "otel-collector-proxmox",
@@ -1361,7 +2115,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "error-pages",
@@ -1373,7 +2136,16 @@
     "ingress_url": "https://error.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "otel-collector-rabbitmq",
@@ -1385,7 +2157,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "dragonfly-n",
@@ -1397,7 +2178,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "v1.37.2",
+    "probe": {
+      "current": "v1.37.2",
+      "latest": "v1.37.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "chaoskube",
@@ -1409,7 +2199,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "argo-events",
@@ -1421,7 +2220,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "traefik",
@@ -1433,7 +2241,16 @@
     "ingress_url": "https://matrix.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/traefik.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "tailscale-operator",
@@ -1445,7 +2262,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "knative-operator",
@@ -1457,7 +2283,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "fission",
@@ -1469,7 +2304,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "ghcr.io",
+    "tag": "v0.17",
+    "probe": {
+      "current": "v0.17",
+      "latest": "v0.17",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keydb",
@@ -1481,7 +2325,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "dragonfly",
@@ -1493,7 +2346,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "v1.37.2",
+    "probe": {
+      "current": "v1.37.2",
+      "latest": "v1.37.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cloudnative-pg",
@@ -1505,7 +2367,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "demo-rum",
@@ -1517,7 +2388,16 @@
     "ingress_url": "https://demo-rum.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/101834114?s=200&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 81,
+    "image": "repository",
+    "tag": "0.0.5",
+    "probe": {
+      "current": "0.0.5",
+      "latest": "0.0.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "homepage",
@@ -1529,7 +2409,16 @@
     "ingress_url": "https://homepage.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 99,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "otel-collector-gpu",
@@ -1541,7 +2430,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "gatus",
@@ -1551,9 +2449,18 @@
     "repo": "https://geek-cookbook.github.io/charts",
     "path": "Applications/observability/gatus.yaml",
     "ingress_url": "https://gatus.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/gatus.png",
+    "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 59,
+    "image": "repository",
+    "tag": "v5.21.0",
+    "probe": {
+      "current": "v5.21.0",
+      "latest": "v5.21.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "influxdb2",
@@ -1565,7 +2472,16 @@
     "ingress_url": "https://influx2.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "repository",
+    "tag": "2.7.12",
+    "probe": {
+      "current": "2.7.12",
+      "latest": "2.7.12",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "opentelemetry-operator",
@@ -1577,7 +2493,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 59,
+    "image": "repository",
+    "tag": "0.137.0",
+    "probe": {
+      "current": "0.137.0",
+      "latest": "0.137.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "prometheus-blackbox-exporter",
@@ -1589,7 +2514,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "argocd-mobile-dashboard",
@@ -1601,7 +2535,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "watchyourlan",
@@ -1613,7 +2556,16 @@
     "ingress_url": "https://watchyourlan.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 67,
+    "image": "aceberg/watchyourlan",
+    "tag": "2.1.4",
+    "probe": {
+      "current": "2.1.4",
+      "latest": "2.1.4",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "o2-openobserve",
@@ -1625,7 +2577,16 @@
     "ingress_url": "https://o2-openobserve.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/95867656?s=280&v=4",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 89,
+    "image": "oss",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "grafana",
@@ -1637,7 +2598,16 @@
     "ingress_url": "https://grafana.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/grafana.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 91,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "ragecheck",
@@ -1649,7 +2619,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "dcgm-exporter",
@@ -1661,7 +2640,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kube-prometheus-stack",
@@ -1673,7 +2661,16 @@
     "ingress_url": "https://prometheus.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 61,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "gaps",
@@ -1685,7 +2682,16 @@
     "ingress_url": "https://gaps.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 57,
+    "image": "housewrecker/gaps",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "observability-shared-secrets",
@@ -1697,7 +2703,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "inova-monitoring",
@@ -1709,7 +2724,16 @@
     "ingress_url": "https://inova-monitoring.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 61,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kyverno",
@@ -1721,7 +2745,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://kyverno.io/img/kyverno-logo.svg",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "vault",
@@ -1733,7 +2766,16 @@
     "ingress_url": "https://vault.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/vault.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 12,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sealed-secrets",
@@ -1745,7 +2787,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/sealed-secrets.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kyverno-cluster-policy",
@@ -1757,7 +2808,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/kyverno-cluster-policy.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "kryptos",
@@ -1769,7 +2829,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/kryptos.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "fence",
@@ -1781,7 +2850,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/fence.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "external-secrets",
@@ -1793,7 +2871,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/external-secrets.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 16,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "trivy-operator",
@@ -1803,9 +2890,18 @@
     "repo": "https://aquasecurity.github.io/helm-charts/",
     "path": "Applications/security/trivy-operator.yaml",
     "ingress_url": "https://vault-sbx.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trivy-operator.png",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trivy.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 12,
+    "image": "registry",
+    "tag": "0.24.1",
+    "probe": {
+      "current": "0.24.1",
+      "latest": "0.24.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cert-manager",
@@ -1817,7 +2913,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/cert-manager.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 12,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "stockfish",
@@ -1829,7 +2934,16 @@
     "ingress_url": "https://stockfish.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/stockfish.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "meteo",
@@ -1841,7 +2955,16 @@
     "ingress_url": "https://meteo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/meteo.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 4,
+    "image": "repository",
+    "tag": "2026.2.3",
+    "probe": {
+      "current": "2026.2.3",
+      "latest": "2026.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "emqx",
@@ -1853,7 +2976,16 @@
     "ingress_url": "https://dashboard-emqx.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/emqx.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "5.8.7",
+    "probe": {
+      "current": "5.8.7",
+      "latest": "5.8.7",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "plex-organizer",
@@ -1865,7 +2997,16 @@
     "ingress_url": "https://transmission-vpn.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/plex-organizer.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 19,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "restreamer",
@@ -1877,7 +3018,16 @@
     "ingress_url": "https://transmission-vpn.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/restreamer.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "audiobookshelf",
@@ -1889,7 +3039,16 @@
     "ingress_url": "https://audiobookshelf.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/audiobookshelf.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "transmission-vpn",
@@ -1901,7 +3060,16 @@
     "ingress_url": "https://transmission-vpn.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/transmission-vpn.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "handbrake",
@@ -1913,7 +3081,16 @@
     "ingress_url": "https://handbrake.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/handbrake.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "jellyfin-prd",
@@ -1925,7 +3102,16 @@
     "ingress_url": "https://jellyfin-prd.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "registry",
+    "tag": "10.11.11",
+    "probe": {
+      "current": "10.11.11",
+      "latest": "10.11.11",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pigallery2",
@@ -1937,7 +3123,16 @@
     "ingress_url": "https://pigallery2.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/pigallery2.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "eros",
@@ -1949,7 +3144,16 @@
     "ingress_url": "https://eros.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/eros.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 19,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "qbittorrent",
@@ -1961,7 +3165,16 @@
     "ingress_url": "https://qbittorrent.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/qbittorrent.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "ghcr.io/linuxserver/qbittorrent",
+    "tag": "version-5.0.3-r0",
+    "probe": {
+      "current": "version-5.0.3-r0",
+      "latest": "version-5.0.3-r0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sonarr",
@@ -1973,7 +3186,16 @@
     "ingress_url": "https://sonarr.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/sonarr.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "calibre",
@@ -1985,7 +3207,16 @@
     "ingress_url": "https://calibre.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/calibre.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "version-v7.23.0",
+    "probe": {
+      "current": "version-v7.23.0",
+      "latest": "version-v7.23.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "photoprism",
@@ -1997,7 +3228,16 @@
     "ingress_url": "https://photoprism.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/photoprism.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 25,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "youtubedl",
@@ -2009,7 +3249,16 @@
     "ingress_url": "https://youtubedl.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/youtubedl.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "4.3",
+    "probe": {
+      "current": "4.3",
+      "latest": "4.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "deemix",
@@ -2021,7 +3270,16 @@
     "ingress_url": "https://deemix.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/deemix.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "jellyfin-pgsql",
@@ -2033,7 +3291,16 @@
     "ingress_url": "https://flix.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin-pgsql.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 19,
+    "image": "registry",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "immich",
@@ -2045,7 +3312,16 @@
     "ingress_url": "https://immich.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/immich.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 21,
+    "image": "tag",
+    "tag": "9.0-alpine",
+    "probe": {
+      "current": "9.0-alpine",
+      "latest": "9.0-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "open-webui",
@@ -2057,7 +3333,16 @@
     "ingress_url": "https://openwebui.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/open-webui.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "qdrant",
@@ -2069,7 +3354,16 @@
     "ingress_url": "https://qdrant.p.zacharie.org",
     "icon_url": "https://logo.svgcdn.com/logos/qdrant.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 177,
+    "image": "repository",
+    "tag": "v1.17.1",
+    "probe": {
+      "current": "v1.16.3",
+      "latest": "v1.17.0",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "anything-llm",
@@ -2079,9 +3373,18 @@
     "repo": "https://la-cc.github.io/anything-llm-helm-chart",
     "path": "Applications/ai/anything-llm.yaml",
     "ingress_url": "https://anything-llm.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/anything-llm.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 175,
+    "image": "repository",
+    "tag": "1.11.0",
+    "probe": {
+      "current": "1.11.0",
+      "latest": "1.11.2",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "memgraph",
@@ -2093,7 +3396,16 @@
     "ingress_url": "https://memgraph.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "gpu-hot",
@@ -2105,7 +3417,16 @@
     "ingress_url": "https://gpu-hot.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pylos",
@@ -2117,7 +3438,16 @@
     "ingress_url": "https://pylos.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 219,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "graphon",
@@ -2129,7 +3459,16 @@
     "ingress_url": "https://graphon.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 187,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pylos-dev",
@@ -2141,7 +3480,16 @@
     "ingress_url": "https://pylos-dev.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 218,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "openmed",
@@ -2153,7 +3501,16 @@
     "ingress_url": "https://openmed.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "llama-cpp",
@@ -2165,7 +3522,16 @@
     "ingress_url": "https://llama-cpp.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "server-cuda",
+    "probe": {
+      "current": "server-cuda",
+      "latest": "server-cuda",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "open-notebook",
@@ -2175,9 +3541,18 @@
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/open-notebook.yaml",
     "ingress_url": "https://open-notebook.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jupyter.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 175,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "ollama",
@@ -2189,7 +3564,16 @@
     "ingress_url": "https://ollama.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/ollama.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 175,
+    "image": "ollama/ollama",
+    "tag": "0.30.7",
+    "probe": {
+      "current": "0.17.4",
+      "latest": "0.18.2",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "lobe-chat",
@@ -2199,9 +3583,18 @@
     "repo": "https://darox.github.io/helm-charts/",
     "path": "Applications/ai/lobe-chat.yaml",
     "ingress_url": "https://lobe-chat.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/lobe-chat.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 179,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "lemonade",
@@ -2213,7 +3606,16 @@
     "ingress_url": "https://lemonade.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 175,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "chromadb",
@@ -2223,9 +3625,18 @@
     "repo": "https://infracloudio.github.io/charts",
     "path": "Applications/ai/chromadb.yaml",
     "ingress_url": "https://chromadb.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/chroma.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "whisperx",
@@ -2237,7 +3648,16 @@
     "ingress_url": "https://whisperx-active.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 175,
+    "image": "r8.im/victor-upmeet/whisperx",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "opencode-ai",
@@ -2249,7 +3669,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "litellm",
@@ -2259,9 +3688,18 @@
     "repo": "https://github.com/JZacharie/helmscharts.git",
     "path": "Applications/ai/litellm.yaml",
     "ingress_url": "https://litellm.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/litellm.png",
+    "icon_url": "https://litellm.p.zacharie.org/get_image",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 295,
+    "image": "ghcr.io/berriai/litellm-database",
+    "tag": "latest-stable",
+    "probe": {
+      "current": "latest-stable",
+      "latest": "latest-stable",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "bifrost",
@@ -2271,9 +3709,18 @@
     "repo": "https://maximhq.github.io/bifrost/helm-charts",
     "path": "Applications/ai/bifrost.yaml",
     "ingress_url": "https://bifrost.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/fastapi.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 201,
+    "image": "repository",
+    "tag": "v1.5.0",
+    "probe": {
+      "current": "v1.5.0",
+      "latest": "v1.5.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "libre-chat",
@@ -2285,7 +3732,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 189,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "k8sgpt",
@@ -2297,7 +3753,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "antigravity",
@@ -2309,7 +3774,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "docling",
@@ -2321,7 +3795,16 @@
     "ingress_url": "https://docling-active.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pg-sbx-vs",
@@ -2333,7 +3816,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/pg.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pg-prd",
@@ -2345,7 +3837,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "proxmox-csi",
@@ -2357,7 +3858,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/proxmox-csi.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "rustfs",
@@ -2367,9 +3877,18 @@
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/storage/rustfs.yaml",
     "ingress_url": "https://rustfs.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/rustfs.png",
+    "icon_url": "https://cdn.simpleicons.org/rust",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "rustfs",
+    "tag": "1.0.0-rc.2",
+    "probe": {
+      "current": "1.0.0-rc.2",
+      "latest": "1.0.0-rc.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nfs-client",
@@ -2381,7 +3900,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/nfs-client.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pg-sbx",
@@ -2393,7 +3921,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nfs-client-jonas",
@@ -2405,7 +3942,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/nfs-client-jonas.png",
     "status": "Active",
-    "badge_class": "badge-active"
+    "badge_class": "badge-active",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "facefusion",
@@ -2417,7 +3963,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "steampipe-powerpipe",
@@ -2429,7 +3984,16 @@
     "ingress_url": "https://powerpipe.p.zacharie.org",
     "icon_url": "https://powerpipe.io/images/powerpipe-logo.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 63,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pgadmin4",
@@ -2441,7 +4005,16 @@
     "ingress_url": "https://kargo.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sorry-cypress-sbx",
@@ -2453,7 +4026,16 @@
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/sorry-cypress.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "proton-bridge",
@@ -2465,7 +4047,16 @@
     "ingress_url": "https://proton-bridge.p.zacharie.org",
     "icon_url": "https://proton.me/favicons/apple-touch-icon.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "blinko",
@@ -2477,7 +4068,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "tei",
@@ -2489,7 +4089,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 175,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "tandoor",
@@ -2499,9 +4108,18 @@
     "repo": "-",
     "path": "Disabled/tandoor.yaml.disable",
     "ingress_url": "https://tandoor.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/tandoor.png",
+    "icon_url": "https://repository-images.githubusercontent.com/221546437/4d9e5700-6e25-11eb-9c02-4c848eb9b2a9",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 35,
+    "image": "ghcr.io/tandoorrecipes/recipes",
+    "tag": "1.5.27",
+    "probe": {
+      "current": "1.5.27",
+      "latest": "1.5.35",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "litellm-pgvector",
@@ -2513,7 +4131,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 179,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "prerender",
@@ -2525,7 +4152,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "openclaw",
@@ -2537,7 +4173,16 @@
     "ingress_url": "https://openclaw.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 177,
+    "image": "repository",
+    "tag": "2026.2.15",
+    "probe": {
+      "current": "2026.2.15",
+      "latest": "2026.2.15",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "language-tool",
@@ -2549,7 +4194,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "pd3f",
@@ -2561,7 +4215,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "velld",
@@ -2573,7 +4236,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "simple-irc-server",
@@ -2585,7 +4257,16 @@
     "ingress_url": "https://irc.p.zacharie.org",
     "icon_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Irc.svg",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "mnemosyne",
@@ -2597,7 +4278,16 @@
     "ingress_url": "https://search.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "89-latest",
+    "probe": {
+      "current": "89-latest",
+      "latest": "89-latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "traccar",
@@ -2607,9 +4297,18 @@
     "repo": "-",
     "path": "Disabled/traccar.yaml.disable",
     "ingress_url": "https://psitransfer.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/traccar.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "home-assistant",
@@ -2621,7 +4320,16 @@
     "ingress_url": "https://hak.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/home-assistant.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "2026.2.3",
+    "probe": {
+      "current": "2026.2.3",
+      "latest": "2026.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nv-manager",
@@ -2633,7 +4341,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "openvas",
@@ -2645,7 +4362,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/openvas.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "dnsweaver",
@@ -2657,7 +4383,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 81,
+    "image": "repository",
+    "tag": "v1.6.0",
+    "probe": {
+      "current": "v1.6.0",
+      "latest": "v1.6.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "scriberr",
@@ -2669,7 +4404,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "stirling-pdf",
@@ -2679,9 +4423,18 @@
     "repo": "-",
     "path": "Disabled/stirling-pdf.yaml.disable",
     "ingress_url": "https://stirling-pdf.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/stirling-pdf.png",
+    "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "shadowbroker",
@@ -2693,7 +4446,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/shadowbroker.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 16,
+    "image": "pullPolicy",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "chartdb",
@@ -2705,7 +4467,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keda-waiting-page",
@@ -2717,7 +4488,16 @@
     "ingress_url": "https://keda-status.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "transmission",
@@ -2729,7 +4509,16 @@
     "ingress_url": "https://transmission-vpn.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/transmission.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "garage",
@@ -2741,7 +4530,16 @@
     "ingress_url": "https://rustfs.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/garage.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 5,
+    "image": "repository",
+    "tag": "v4.0.2",
+    "probe": {
+      "current": "v4.0.2",
+      "latest": "v4.0.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "redis-s",
@@ -2753,7 +4551,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "redis",
+    "tag": "8.4.0",
+    "probe": {
+      "current": "8.4.0",
+      "latest": "8.4.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keryx",
@@ -2765,7 +4572,16 @@
     "ingress_url": "https://orchestrator.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 195,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "vllm",
@@ -2777,7 +4593,16 @@
     "ingress_url": "https://vllm.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "v0.4.2",
+    "probe": {
+      "current": "v0.4.2",
+      "latest": "v0.4.2",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "linkwarden",
@@ -2787,9 +4612,18 @@
     "repo": "-",
     "path": "Disabled/linkwarden.yaml.disable",
     "ingress_url": "https://psitransfer.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/linkwarden.png",
+    "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "qwen3-tts",
@@ -2801,7 +4635,16 @@
     "ingress_url": "https://qwen-tts.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 175,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "netbox",
@@ -2813,7 +4656,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/netbox.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "vault-sbx",
@@ -2825,7 +4677,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/vault.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 11,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "radarr",
@@ -2837,7 +4698,16 @@
     "ingress_url": "https://radarr.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/radarr.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "chaos-mesh",
@@ -2849,7 +4719,16 @@
     "ingress_url": "https://chaos-mesh.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "f5-tts",
@@ -2861,7 +4740,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "urocissa",
@@ -2873,7 +4761,16 @@
     "ingress_url": "https://urocissa.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/urocissa.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 15,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "rsshub",
@@ -2885,7 +4782,16 @@
     "ingress_url": "https://rsshub.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "diygod/rsshub",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "rust-s3-asr",
@@ -2897,7 +4803,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 183,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "metabase",
@@ -2909,7 +4824,16 @@
     "ingress_url": "https://metabase.p.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "mimir-distributed",
@@ -2921,7 +4845,16 @@
     "ingress_url": "https://otel.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/aceberg/WatchYourLAN/main/assets/logo.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 59,
+    "image": "docker.io/grafana/mimir",
+    "tag": "1.6.39-alpine",
+    "probe": {
+      "current": "1.6.39-alpine",
+      "latest": "1.6.39-alpine",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "hermes-agent",
@@ -2933,7 +4866,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "google-mcp",
@@ -2945,7 +4887,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sysctl-inotify-patcher",
@@ -2957,7 +4908,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nextexplorer",
@@ -2969,7 +4929,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "thelounge",
@@ -2981,7 +4950,16 @@
     "ingress_url": "https://thelounge.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "chatterbox",
@@ -2993,7 +4971,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "guacamole sbx",
@@ -3005,7 +4992,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "maintenance",
@@ -3017,7 +5013,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 81,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "budibase",
@@ -3029,7 +5034,16 @@
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/budibase.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "plausible-analytics",
@@ -3041,7 +5055,16 @@
     "ingress_url": "https://psitransfer.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 31,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "fundy",
@@ -3053,7 +5076,16 @@
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/fundy.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "argocd-notifications",
@@ -3065,7 +5097,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "repository",
+    "tag": "v1.2.1",
+    "probe": {
+      "current": "v1.2.1",
+      "latest": "v1.2.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "loadrunner",
@@ -3077,7 +5118,16 @@
     "ingress_url": "https://loadrunner.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/sergeyslonimsky/elara/master/helm/elara/assets/logo.svg",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 8,
+    "image": "repository",
+    "tag": "25.2.3",
+    "probe": {
+      "current": "25.2.3",
+      "latest": "25.2.3",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "appflowy-sbxd",
@@ -3089,7 +5139,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "cert-manager-webhook-gandi",
@@ -3101,7 +5160,16 @@
     "ingress_url": "https://vault-sbx.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/cert-manager-webhook-gandi.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 10,
+    "image": "repository",
+    "tag": "1.21.1",
+    "probe": {
+      "current": "1.21.1",
+      "latest": "1.21.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "qwen-image-layered",
@@ -3113,7 +5181,16 @@
     "ingress_url": "https://qwen-image-layered.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "antigravity-remote-docker",
@@ -3125,7 +5202,16 @@
     "ingress_url": "https://chromadb.p.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "descheduler",
@@ -3137,7 +5223,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "quay.io/cilium/cilium",
+    "tag": "v1.16.5",
+    "probe": {
+      "current": "v1.16.5",
+      "latest": "v1.16.5",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "redis",
@@ -3149,7 +5244,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/redis.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "redis",
+    "tag": "8.4.0",
+    "probe": {
+      "current": "8.4.0",
+      "latest": "8.6.1",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "redis-n",
@@ -3161,7 +5265,16 @@
     "ingress_url": "https://keda-status.zacharie.org",
     "icon_url": "https://minio-170-api.zacharie.org/assets/chaosmesh.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 79,
+    "image": "redis",
+    "tag": "8.2.1",
+    "probe": {
+      "current": "8.2.1",
+      "latest": "8.2.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "paperless-gpt",
@@ -3173,7 +5286,16 @@
     "ingress_url": "https://paperlessgpt.p.zacharie.org",
     "icon_url": "https://avatars.githubusercontent.com/u/14336958?s=280&v=4",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 33,
+    "image": "repository",
+    "tag": "v2.4.1",
+    "probe": {
+      "current": "v2.4.1",
+      "latest": "v2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "sim",
@@ -3185,7 +5307,16 @@
     "ingress_url": "https://sim.p.zacharie.org",
     "icon_url": "https://www.sim.ai/logo/primary/rounded.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 83,
+    "image": "repository",
+    "tag": "v0.5.59",
+    "probe": {
+      "current": "v0.5.59",
+      "latest": "v0.5.59",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "nav",
@@ -3197,7 +5328,16 @@
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/nav.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "keycloak",
@@ -3209,7 +5349,16 @@
     "ingress_url": "https://keycloak.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/keycloak.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 12,
+    "image": "keycloak/keycloak",
+    "tag": "26.5.1",
+    "probe": {
+      "current": "26.5.1",
+      "latest": "26.5.6",
+      "status": "UPDATE_AVAILABLE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "karakeep",
@@ -3221,7 +5370,16 @@
     "ingress_url": "https://karakeep.p.zacharie.org",
     "icon_url": "https://play-lh.googleusercontent.com/95d3e2a2-m4WVn7RYmdlOpdXJditxSpj4iVCF70aWPxJUQEP1HOdbiUg6L2GDOHfFV8=w240-h480-rw",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 81,
+    "image": "repository",
+    "tag": "0.31.0",
+    "probe": {
+      "current": "0.31.0",
+      "latest": "0.31.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "openai-whisper-asr-webservice",
@@ -3233,7 +5391,16 @@
     "ingress_url": "https://openai-whisper-asr-webservice-active.zacharie.org",
     "icon_url": "https://brandlogos.net/wp-content/uploads/2025/06/chroma-logo_brandlogos.net_1z1qk-512x339.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 173,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   },
   {
     "name": "gel3-dev",
@@ -3245,14 +5412,21 @@
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/gel3.png",
     "status": "Disabled",
-    "badge_class": "badge-disabled"
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
   }
 ];
 
         function handleIconError(img, appName) {
-            // Replace broken image with a vibrant 2-letter gradient avatar badge
             const wrapper = img.parentElement;
-            
             const clean = appName.replace(/^joe3-|^jo3-|-sbx|-dev|-prd|-vs/g, "");
             const words = clean.split(/[-_]/);
             let initials = "";
@@ -3295,6 +5469,11 @@
                     `<a href="${app.ingress_url}" target="_blank" rel="noopener noreferrer" class="ingress-btn">🌐 Ouvrir (${app.ingress_url.replace("https://", "")})</a>` : 
                     `<div class="no-ingress">Aucune route Ingress publique</div>`;
 
+                const updateBadge = app.probe.status === "UPDATE_AVAILABLE" ?
+                    `<span class="badge badge-update">🚀 Upgrade v${app.probe.latest}</span>` : '';
+
+                const gitleakColor = app.gitleaks_count > 0 ? '#ef4444' : '#10b981';
+
                 card.innerHTML = `
                     <div>
                         <div class="app-header">
@@ -3304,16 +5483,35 @@
                                 </div>
                                 <div class="app-title">${app.name}</div>
                             </div>
-                            <span class="badge ${app.badge_class}">${app.status}</span>
+                            <div>
+                                <span class="badge ${app.badge_class}">${app.status}</span>
+                                ${updateBadge}
+                            </div>
                         </div>
+
+                        <div class="probe-box">
+                            <div class="probe-row">
+                                <span style="color: var(--text-muted);">Sonde Image :</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-weight:600; color: ${app.probe.status === 'UPDATE_AVAILABLE' ? '#fbbf24' : '#10b981'};">
+                                    ${app.probe.status === 'UPDATE_AVAILABLE' ? '🚀 v' + app.probe.current + ' ➔ v' + app.probe.latest : '✅ v' + app.probe.current}
+                                </span>
+                            </div>
+                            <div class="probe-row">
+                                <span style="color: var(--text-muted);">Gitleaks / Passwords :</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-weight:600; color: ${gitleakColor};">
+                                    ${app.gitleaks_count > 0 ? '⚠️ ' + app.gitleaks_count + ' secrets bruts' : '🛡️ 0 leak (Vault/ExternalSecret)'}
+                                </span>
+                            </div>
+                        </div>
+
                         <div class="app-meta">
                             <div class="meta-row">
-                                <span>Projet :</span>
-                                <span class="val">${app.project}</span>
+                                <span>Projet / NS :</span>
+                                <span class="val">${app.project} / ${app.namespace}</span>
                             </div>
                             <div class="meta-row">
-                                <span>Namespace :</span>
-                                <span class="val">${app.namespace}</span>
+                                <span>Architecture :</span>
+                                <span class="val">${app.arch}</span>
                             </div>
                             <div class="meta-row">
                                 <span>Source / Chart :</span>
@@ -3337,9 +5535,11 @@
                 document.getElementById("statusFilter").value = "Active";
             } else if (type === "Disabled") {
                 document.getElementById("statusFilter").value = "Disabled";
-            } else if (type === "Ingress") {
+            } else if (type === "Updates") {
+                document.getElementById("statusFilter").value = "Update";
+            } else if (type === "Gitleaks") {
                 document.getElementById("statusFilter").value = "ALL";
-                document.getElementById("searchInput").value = ".zacharie.org";
+                document.getElementById("searchInput").value = "secrets bruts";
             }
             filterApps();
         }
@@ -3354,9 +5554,13 @@
                                     app.project.toLowerCase().includes(search) || 
                                     app.namespace.toLowerCase().includes(search) ||
                                     app.ingress_url.toLowerCase().includes(search) ||
-                                    app.chart.toLowerCase().includes(search);
+                                    app.chart.toLowerCase().includes(search) ||
+                                    (search.includes("secret") && app.gitleaks_count > 0);
                 const matchProject = (project === "ALL" || app.project === project);
-                const matchStatus = (status === "ALL" || app.status === status);
+                let matchStatus = true;
+                if (status === "Active") matchStatus = app.status === "Active";
+                else if (status === "Disabled") matchStatus = app.status === "Disabled";
+                else if (status === "Update") matchStatus = app.probe.status === "UPDATE_AVAILABLE";
 
                 return matchSearch && matchProject && matchStatus;
             });
