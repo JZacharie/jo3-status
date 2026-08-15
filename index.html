@@ -5472,6 +5472,16 @@
             wrapper.innerHTML = initials;
         }
 
+        function formatVersion(ver) {
+            if (!ver) return "latest";
+            const str = ver.toString().trim();
+            if (str.toLowerCase() === "latest" || str.toLowerCase() === "-" || str === "") {
+                return "latest";
+            }
+            const clean = str.replace(/^[vV]+/, '');
+            return "v" + clean;
+        }
+
         function renderApps(apps) {
             const grid = document.getElementById("appsGrid");
             grid.innerHTML = "";
@@ -5489,14 +5499,14 @@
                     `<a href="${app.ingress_url}" target="_blank" rel="noopener noreferrer" class="ingress-btn">🌐 Ouvrir (${app.ingress_url.replace("https://", "")})</a>` : 
                     `<div class="no-ingress">Aucune route Ingress publique</div>`;
 
-                const updateBadge = app.probe.status === "UPDATE_AVAILABLE" ?
-                    `<span class="badge badge-update">🚀 Upgrade v${app.probe.latest}</span>` : '';
+                const updateBadge = (app.probe && app.probe.status === "UPDATE_AVAILABLE") ?
+                    `<span class="badge badge-update">🚀 Upgrade ${formatVersion(app.probe.latest)}</span>` : '';
 
                 const gitleakColor = app.gitleaks_count > 0 ? '#ef4444' : '#10b981';
 
-                const probeHtml = app.probe.status === "UPDATE_AVAILABLE" ?
-                    `🚀 v${app.probe.current} ➔ v${app.probe.latest}` :
-                    `✅ v${app.probe.current}`;
+                const probeHtml = (app.probe && app.probe.status === "UPDATE_AVAILABLE") ?
+                    `🚀 ${formatVersion(app.probe.current)} ➔ ${formatVersion(app.probe.latest)}` :
+                    `✅ ${formatVersion(app.probe ? app.probe.current : 'latest')}`;
 
                 card.innerHTML = `
                     <div>
