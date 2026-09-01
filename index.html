@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">243</div>
+                <div class="value" style="color: #6366f1;">244</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">172</div>
+                <div class="value" style="color: #10b981;">173</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1233,6 +1233,27 @@
     "path": "Applications/dev-tools/swaggerui.yaml",
     "ingress_url": "https://swagger.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/swaggerui.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "semaphore",
+    "project": "infrastructure",
+    "namespace": "semaphore",
+    "chart": "semaphore",
+    "repo": "https://semaphoreui.github.io/charts/",
+    "path": "Applications/dev-tools/semaphore.yaml",
+    "ingress_url": "",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/semaphore.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
