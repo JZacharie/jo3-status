@@ -1099,6 +1099,27 @@
     "arch": "amd64 (K8s)"
   },
   {
+    "name": "vdi",
+    "project": "dev-tools",
+    "namespace": "vdi",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/dev-tools/vdi.yaml",
+    "ingress_url": "https://vdi.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/vdi.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 2,
+    "image": "repository",
+    "tag": "ubuntu-xfce",
+    "probe": {
+      "current": "ubuntu-xfce",
+      "latest": "ubuntu-xfce",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
     "name": "opencode-dev-tools",
     "project": "dev-tools",
     "namespace": "dev-tools",
@@ -1220,27 +1241,6 @@
     "probe": {
       "current": "latest",
       "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "freelens",
-    "project": "dev-tools",
-    "namespace": "freelens",
-    "chart": "app-template",
-    "repo": "https://bjw-s-labs.github.io/helm-charts",
-    "path": "Applications/dev-tools/freelens.yaml",
-    "ingress_url": "https://freelens.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/freelens.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 2,
-    "image": "repository",
-    "tag": "ubuntu-xfce",
-    "probe": {
-      "current": "ubuntu-xfce",
-      "latest": "ubuntu-xfce",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
