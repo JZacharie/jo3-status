@@ -384,7 +384,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">174</div>
+                <div class="value" style="color: #10b981;">173</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -905,27 +905,6 @@
     "probe": {
       "current": "1.5.0",
       "latest": "1.5.0",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "gpu-hot",
-    "project": "ai",
-    "namespace": "gpu-hot",
-    "chart": "values/ai/gpu-hot/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/ai/gpu-hot.yaml",
-    "ingress_url": "https://gpu-hot.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/gpu-hot.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
@@ -4404,6 +4383,27 @@
     "path": "Disabled/openai-whisper-asr-webservice.yaml.disable",
     "ingress_url": "https://openai-whisper-asr-webservice-active.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/openai-whisper-asr-webservice.png",
+    "status": "Disabled",
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "gpu-hot",
+    "project": "ai",
+    "namespace": "gpu-hot",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/gpu-hot.yaml.disable",
+    "ingress_url": "https://gpu-hot.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/gpu-hot.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
     "gitleaks_count": 0,
