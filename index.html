@@ -384,7 +384,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">173</div>
+                <div class="value" style="color: #10b981;">172</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -671,27 +671,6 @@
     "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "open-webui",
-    "project": "ai",
-    "namespace": "open-webui",
-    "chart": "open-webui",
-    "repo": "https://helm.openwebui.com",
-    "path": "Applications/ai/open-webui.yaml",
-    "ingress_url": "https://openwebui.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/open-webui.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
     "probe": {
       "current": "latest",
       "latest": "latest",
@@ -5160,6 +5139,27 @@
     "path": "Disabled/google-mcp.yaml.disable",
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/google-mcp.png",
+    "status": "Disabled",
+    "badge_class": "badge-disabled",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "open-webui",
+    "project": "ai",
+    "namespace": "open-webui",
+    "chart": "-",
+    "repo": "-",
+    "path": "Disabled/open-webui.yaml.disable",
+    "ingress_url": "https://openwebui.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/open-webui.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
     "gitleaks_count": 0,
