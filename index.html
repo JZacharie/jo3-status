@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">248</div>
+                <div class="value" style="color: #6366f1;">249</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">174</div>
+                <div class="value" style="color: #10b981;">175</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1128,6 +1128,27 @@
     "path": "Applications/observability/grafana.yaml",
     "ingress_url": "https://grafana.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/grafana.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "inova-management",
+    "project": "observability",
+    "namespace": "observability",
+    "chart": "values/observability/inova-management/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/observability/inova-management.yaml",
+    "ingress_url": "https://inova-management.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/inova-management.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
