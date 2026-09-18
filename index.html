@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">251</div>
+                <div class="value" style="color: #6366f1;">252</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">177</div>
+                <div class="value" style="color: #10b981;">178</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -392,7 +392,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Gitleaks')">
                 <div class="label">Alerte Gitleaks / Passwords</div>
-                <div class="value" style="color: #ef4444;">8</div>
+                <div class="value" style="color: #ef4444;">10</div>
             </div>
         </div>
 
@@ -2081,6 +2081,27 @@
     "probe": {
       "current": "latest-hardened",
       "latest": "latest-hardened",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "baserow",
+    "project": "productivity",
+    "namespace": "baserow",
+    "chart": "baserow",
+    "repo": "https://baserow.github.io/baserow-chart",
+    "path": "Applications/productivity/baserow.yaml",
+    "ingress_url": "https://api.baserow.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/baserow.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 2,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
