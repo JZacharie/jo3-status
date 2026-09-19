@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">260</div>
+                <div class="value" style="color: #6366f1;">254</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">187</div>
+                <div class="value" style="color: #10b981;">181</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -947,27 +947,6 @@
     "probe": {
       "current": "server-cuda",
       "latest": "server-cuda",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "buzz-mcp",
-    "project": "ai",
-    "namespace": "buzz",
-    "chart": "values/ai/buzz-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/ai/buzz-mcp.yaml",
-    "ingress_url": "https://buzz-mcp.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/buzz-mcp.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
@@ -2905,27 +2884,6 @@
     "arch": "amd64 (K8s)"
   },
   {
-    "name": "google-mcp",
-    "project": "infrastructure",
-    "namespace": "google-mcp",
-    "chart": "values/infrastructure/google-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/infrastructure/google-mcp.yaml",
-    "ingress_url": "https://google-workspace-mcp.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/google-mcp.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
     "name": "fluent-bit",
     "project": "infrastructure",
     "namespace": "awx",
@@ -3094,27 +3052,6 @@
     "arch": "amd64 (K8s)"
   },
   {
-    "name": "filesystem-mcp",
-    "project": "infrastructure",
-    "namespace": "filesystem-mcp",
-    "chart": "values/infrastructure/filesystem-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/infrastructure/filesystem-mcp.yaml",
-    "ingress_url": "https://filesystem-mcp.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/filesystem-mcp.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
     "name": "mariadb-operator-crds",
     "project": "infrastructure",
     "namespace": "mariadb-operator",
@@ -3165,27 +3102,6 @@
     "path": "Applications/infrastructure/mariadb-operator.yaml",
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mariadb-operator.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "postgres-mcp",
-    "project": "infrastructure",
-    "namespace": "postgres-mcp",
-    "chart": "values/infrastructure/postgres-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/infrastructure/postgres-mcp.yaml",
-    "ingress_url": "https://postgres-mcp.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres-mcp.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
@@ -3619,27 +3535,6 @@
     "arch": "amd64 (K8s)"
   },
   {
-    "name": "github-mcp",
-    "project": "infrastructure",
-    "namespace": "github-mcp",
-    "chart": "values/infrastructure/github-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/infrastructure/github-mcp.yaml",
-    "ingress_url": "https://github-mcp.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-mcp.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
     "name": "kubernetes-mcp",
     "project": "infrastructure",
     "namespace": "kubernetes-mcp",
@@ -3667,7 +3562,7 @@
     "chart": "values/infrastructure/mcp-suite/manifests",
     "repo": "git@github.com:JZacharie/jo3.git",
     "path": "Applications/infrastructure/mcp-suite.yaml",
-    "ingress_url": "https://mcp-suite.p.zacharie.org",
+    "ingress_url": "https://google-workspace-mcp.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mcp-suite.png",
     "status": "Active",
     "badge_class": "badge-active",
@@ -3942,27 +3837,6 @@
     "path": "Applications/infrastructure/chaoskube.yaml",
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/chaoskube.png",
-    "status": "Active",
-    "badge_class": "badge-active",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "playwright-mcp",
-    "project": "infrastructure",
-    "namespace": "playwright-mcp",
-    "chart": "values/infrastructure/playwright-mcp/manifests",
-    "repo": "git@github.com:JZacharie/jo3.git",
-    "path": "Applications/infrastructure/playwright-mcp.yaml",
-    "ingress_url": "https://playwright-mcp.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/playwright-mcp.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
