@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">255</div>
+                <div class="value" style="color: #6366f1;">257</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">181</div>
+                <div class="value" style="color: #10b981;">184</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -947,6 +947,27 @@
     "probe": {
       "current": "server-cuda",
       "latest": "server-cuda",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "buzz-mcp",
+    "project": "ai",
+    "namespace": "buzz",
+    "chart": "values/ai/buzz-mcp/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/buzz-mcp.yaml",
+    "ingress_url": "https://buzz-mcp.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/buzz-mcp.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
@@ -2884,6 +2905,27 @@
     "arch": "amd64 (K8s)"
   },
   {
+    "name": "google-mcp",
+    "project": "infrastructure",
+    "namespace": "google-mcp",
+    "chart": "values/infrastructure/google-mcp/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/google-mcp.yaml",
+    "ingress_url": "https://google-mcp.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/google-mcp.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
     "name": "fluent-bit",
     "project": "infrastructure",
     "namespace": "awx",
@@ -3102,6 +3144,27 @@
     "path": "Applications/infrastructure/mariadb-operator.yaml",
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mariadb-operator.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "postgres-mcp",
+    "project": "infrastructure",
+    "namespace": "postgres-mcp",
+    "chart": "values/infrastructure/postgres-mcp/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/postgres-mcp.yaml",
+    "ingress_url": "https://postgres-mcp.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/postgres-mcp.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
@@ -5336,27 +5399,6 @@
     "probe": {
       "current": "1.5.35",
       "latest": "1.5.35",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "google-mcp",
-    "project": "infrastructure",
-    "namespace": "google-mcp",
-    "chart": "-",
-    "repo": "-",
-    "path": "Disabled/google-mcp.yaml.disable",
-    "ingress_url": "",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/google-mcp.png",
-    "status": "Disabled",
-    "badge_class": "badge-disabled",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
