@@ -380,11 +380,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">259</div>
+                <div class="value" style="color: #6366f1;">260</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">186</div>
+                <div class="value" style="color: #10b981;">187</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -3656,6 +3656,27 @@
     "probe": {
       "current": "0.0.47",
       "latest": "0.0.47",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "mcp-suite",
+    "project": "infrastructure",
+    "namespace": "mcp-suite",
+    "chart": "values/infrastructure/mcp-suite/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/infrastructure/mcp-suite.yaml",
+    "ingress_url": "https://mcp-suite.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mcp-suite.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
