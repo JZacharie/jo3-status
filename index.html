@@ -355,6 +355,94 @@
             font-size: 0.82rem;
         }
 
+        .scale-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            gap: 0.5rem;
+        }
+
+        .scale-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .scale-btn-group {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .btn-scale {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .btn-scale:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-scale-start {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .btn-scale-start:hover {
+            background: rgba(16, 185, 129, 0.25);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-scale-stop {
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .btn-scale-stop:hover {
+            background: rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 0.85rem 1.25rem;
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -418,6 +506,8 @@
         <div class="apps-grid" id="appsGrid">
             <!-- Rendered by JS -->
         </div>
+
+        <div id="toastNotification" class="toast-notification"></div>
 
         <footer>
             Kusanagi Security & Status Hub • Généré automatiquement par la CI jo3 GitOps
@@ -5916,6 +6006,18 @@
                     </div>
                     <div>
                         ${ingressHtml}
+                        ${app.name === 'facefusion' ? `
+                        <div class="scale-control">
+                            <div class="scale-info">
+                                <span>⚡ GPU FaceFusion :</span>
+                                <span id="facefusionStatus" style="font-weight: 600; color: #34d399;">Actif (1 rep)</span>
+                            </div>
+                            <div class="scale-btn-group">
+                                <button class="btn-scale btn-scale-start" onclick="scaleApp('facefusion', 'facefusion', 1)" title="Démarrer le pod FaceFusion sur le GPU vm169">▶️ Start (1)</button>
+                                <button class="btn-scale btn-scale-stop" onclick="scaleApp('facefusion', 'facefusion', 0)" title="Arrêter FaceFusion et libérer les VRAM GPU">⏹️ Stop (0)</button>
+                            </div>
+                        </div>
+                        ` : ''}
                     </div>
                 `;
                 grid.appendChild(card);
@@ -5971,6 +6073,39 @@
             });
 
             renderApps(filtered);
+        }
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById("toastNotification");
+            if (!toast) return;
+            toast.style.display = "flex";
+            toast.style.borderColor = isSuccess ? "#10b981" : "#ef4444";
+            toast.innerHTML = (isSuccess ? "✅ " : "⚠️ ") + message;
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 4000);
+        }
+
+        function scaleApp(appName, namespace, replicas) {
+            const statusEl = document.getElementById(appName + "Status");
+            const action = replicas === 0 ? "Arrêt (scale 0)" : "Démarrage (scale 1)";
+            
+            if (statusEl) {
+                statusEl.innerText = replicas === 0 ? "Inactif (0 rep)" : "Démarré (1 rep)";
+                statusEl.style.color = replicas === 0 ? "#f87171" : "#34d399";
+            }
+
+            const cmd = `kubectl scale deployment/${appName} -n ${namespace} --replicas=${replicas}`;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(cmd).then(() => {
+                    showToast(`${action} command copié : <code>${cmd}</code>`, true);
+                }).catch(() => {
+                    prompt("Copiez la commande ci-dessous pour exécuter dans votre terminal :", cmd);
+                });
+            } else {
+                prompt("Copiez la commande ci-dessous pour exécuter dans votre terminal :", cmd);
+            }
         }
 
         // Initial render
