@@ -472,7 +472,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">183</div>
+                <div class="value" style="color: #10b981;">184</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1155,6 +1155,27 @@
     "path": "Applications/ai/facefusion.yaml",
     "ingress_url": "https://facefusion.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/facefusion.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "jev",
+    "project": "ai",
+    "namespace": "jev",
+    "chart": "values/ai/jev/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/jev.yaml",
+    "ingress_url": "https://jev.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/brain.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
@@ -5108,27 +5129,6 @@
     "gitleaks_count": 0,
     "image": "pullPolicy",
     "tag": "latest",
-    "probe": {
-      "current": "latest",
-      "latest": "latest",
-      "status": "UP_TO_DATE"
-    },
-    "arch": "amd64 (K8s)"
-  },
-  {
-    "name": "facefusion",
-    "project": "ai",
-    "namespace": "facefusion",
-    "chart": "-",
-    "repo": "-",
-    "path": "Disabled/facefusion.yaml.disable",
-    "ingress_url": "https://facefusion.p.zacharie.org",
-    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/facefusion.png",
-    "status": "Disabled",
-    "badge_class": "badge-disabled",
-    "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
     "probe": {
       "current": "latest",
       "latest": "latest",
