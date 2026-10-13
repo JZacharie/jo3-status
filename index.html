@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">260</div>
+                <div class="value" style="color: #6366f1;">261</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">188</div>
+                <div class="value" style="color: #10b981;">189</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -4037,6 +4037,27 @@
     "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "msgvault",
+    "project": "productivity",
+    "namespace": "msgvault",
+    "chart": "values/productivity/msgvault/manifests/",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/productivity/msgvault.yaml",
+    "ingress_url": "https://msgvault.p.zacharie.org",
+    "icon_url": "https://msgvault.io/favicon.ico",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
     "probe": {
       "current": "latest",
       "latest": "latest",
