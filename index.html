@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">262</div>
+                <div class="value" style="color: #6366f1;">263</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">190</div>
+                <div class="value" style="color: #10b981;">191</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -480,7 +480,7 @@
             </div>
             <div class="stat-card" onclick="quickFilter('Gitleaks')">
                 <div class="label">Alerte Gitleaks / Passwords</div>
-                <div class="value" style="color: #ef4444;">18</div>
+                <div class="value" style="color: #ef4444;">22</div>
             </div>
         </div>
 
@@ -1137,6 +1137,27 @@
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "latitude",
+    "project": "ai",
+    "namespace": "latitude",
+    "chart": "charts/latitude",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/latitude.yaml",
+    "ingress_url": "",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/latitude.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 4,
     "image": "",
     "tag": "",
     "probe": {
