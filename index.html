@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">264</div>
+                <div class="value" style="color: #6366f1;">266</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">192</div>
+                <div class="value" style="color: #10b981;">194</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1378,6 +1378,27 @@
     "arch": "amd64 (K8s)"
   },
   {
+    "name": "mnemosyne",
+    "project": "ai",
+    "namespace": "mnemosyne",
+    "chart": "charts/mnemosyne",
+    "repo": "https://github.com/JZacharie/helmscharts.git",
+    "path": "Applications/ai/mnemosyne.yaml",
+    "ingress_url": "https://search.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mnemosyne.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "repository",
+    "tag": "turing-latest",
+    "probe": {
+      "current": "turing-latest",
+      "latest": "turing-latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
     "name": "opencode-buzz-agent",
     "project": "ai",
     "namespace": "buzz",
@@ -1478,6 +1499,27 @@
     "probe": {
       "current": "1.5.0",
       "latest": "1.5.0",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "tei",
+    "project": "ai",
+    "namespace": "ai",
+    "chart": "values/ai/tei/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/tei.yaml",
+    "ingress_url": "https://tei.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/tei.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
@@ -5248,16 +5290,16 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/mnemosyne.yaml.disable",
-    "ingress_url": "",
+    "ingress_url": "https://search.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/mnemosyne.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
     "gitleaks_count": 0,
-    "image": "",
-    "tag": "",
+    "image": "repository",
+    "tag": "turing-latest",
     "probe": {
-      "current": "latest",
-      "latest": "latest",
+      "current": "turing-latest",
+      "latest": "turing-latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
@@ -5332,7 +5374,7 @@
     "chart": "-",
     "repo": "-",
     "path": "Disabled/tei.yaml.disable",
-    "ingress_url": "",
+    "ingress_url": "https://tei.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/tei.png",
     "status": "Disabled",
     "badge_class": "badge-disabled",
