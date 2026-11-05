@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">266</div>
+                <div class="value" style="color: #6366f1;">267</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">194</div>
+                <div class="value" style="color: #10b981;">195</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1932,6 +1932,27 @@
     "path": "Applications/ai/libre-chat.yaml",
     "ingress_url": "",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/libre-chat.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "moshi",
+    "project": "ai",
+    "namespace": "moshi",
+    "chart": "values/ai/moshi/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/moshi.yaml",
+    "ingress_url": "https://moshi.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/moshi.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
