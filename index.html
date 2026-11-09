@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">267</div>
+                <div class="value" style="color: #6366f1;">268</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">195</div>
+                <div class="value" style="color: #10b981;">196</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -1793,6 +1793,27 @@
     "probe": {
       "current": "latest",
       "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "portainer",
+    "project": "infrastructure",
+    "namespace": "portainer",
+    "chart": "portainer",
+    "repo": "https://portainer.github.io/k8s/",
+    "path": "Applications/infrastructure/portainer.yaml",
+    "ingress_url": "https://portainer.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/portainer.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "repository",
+    "tag": "sts",
+    "probe": {
+      "current": "sts",
+      "latest": "sts",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
