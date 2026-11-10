@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">267</div>
+                <div class="value" style="color: #6366f1;">268</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">195</div>
+                <div class="value" style="color: #10b981;">196</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -2058,6 +2058,27 @@
     "path": "Applications/ai/lemonade.yaml",
     "ingress_url": "https://lemonade.p.zacharie.org",
     "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/lemonade.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "openmausbot",
+    "project": "ai",
+    "namespace": "openmausbot",
+    "chart": "values/ai/openmausbot/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/openmausbot.yaml",
+    "ingress_url": "https://openmausbot.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/openmausbot.png",
     "status": "Active",
     "badge_class": "badge-active",
     "gitleaks_count": 0,
