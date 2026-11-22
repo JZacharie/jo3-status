@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">270</div>
+                <div class="value" style="color: #6366f1;">271</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">198</div>
+                <div class="value" style="color: #10b981;">199</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -827,6 +827,27 @@
     "probe": {
       "current": "2.4.1",
       "latest": "2.4.1",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "papiro",
+    "project": "productivity",
+    "namespace": "papiro",
+    "chart": "app-template",
+    "repo": "https://bjw-s-labs.github.io/helm-charts",
+    "path": "Applications/productivity/papiro.yaml",
+    "ingress_url": "https://papiro.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/papiro.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "repository",
+    "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
       "status": "UP_TO_DATE"
     },
     "arch": "amd64 (K8s)"
