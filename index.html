@@ -468,11 +468,11 @@
         <div class="stats-grid">
             <div class="stat-card" onclick="quickFilter('ALL')">
                 <div class="label">Total Applications</div>
-                <div class="value" style="color: #6366f1;">271</div>
+                <div class="value" style="color: #6366f1;">272</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Active')">
                 <div class="label">Actives (ArgoCD)</div>
-                <div class="value" style="color: #10b981;">199</div>
+                <div class="value" style="color: #10b981;">200</div>
             </div>
             <div class="stat-card" onclick="quickFilter('Updates')">
                 <div class="label">Sonde Mises à Jour</div>
@@ -4058,6 +4058,27 @@
     "gitleaks_count": 0,
     "image": "repository",
     "tag": "latest",
+    "probe": {
+      "current": "latest",
+      "latest": "latest",
+      "status": "UP_TO_DATE"
+    },
+    "arch": "amd64 (K8s)"
+  },
+  {
+    "name": "codebase-memory-mcp",
+    "project": "ai",
+    "namespace": "codebase-memory-mcp",
+    "chart": "values/ai/codebase-memory-mcp/manifests",
+    "repo": "git@github.com:JZacharie/jo3.git",
+    "path": "Applications/ai/codebase-memory-mcp.yaml",
+    "ingress_url": "https://codebase-memory.p.zacharie.org",
+    "icon_url": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/codebase-memory-mcp.png",
+    "status": "Active",
+    "badge_class": "badge-active",
+    "gitleaks_count": 0,
+    "image": "",
+    "tag": "",
     "probe": {
       "current": "latest",
       "latest": "latest",
